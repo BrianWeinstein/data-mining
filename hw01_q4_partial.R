@@ -1,6 +1,6 @@
 #############################
 # < Your Name Here >
-# STAT S4240 
+# STAT W4240 
 # Homework <HW Number> , Problem <Problem Number>
 # < Homework Due Date >
 #
