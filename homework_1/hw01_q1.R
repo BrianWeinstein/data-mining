@@ -46,16 +46,20 @@ fix(college)
 # Problem 8c
 #################
 
+
 # 8ci
 summary(college)
 
+
 # 8cii
 pairs(college[, 1:10])
+
 
 # 8ciii
 ggplot(data=college, aes(x=Private, y=Outstate)) + 
   geom_boxplot() +
   theme_bw()
+
 
 # 8civ
 Elite=rep("No",nrow(college))
@@ -69,6 +73,7 @@ ggplot(data=college, aes(x=Elite, y=Outstate)) +
   geom_boxplot() +
   theme_bw()
 
+
 # 8cv
 par(mfrow=c(3,4)) # split plot window into 4x3 grid
 
@@ -77,6 +82,7 @@ lapply(c(5, 10, 20, 40), function(bins) hist(college$Personal, breaks=bins, main
 lapply(c(5, 10, 20, 40), function(bins) hist(college$S.F.Ratio, breaks=bins, main=paste(bins, " bins", sep="")))
 
 par(mfrow=c(1,1)) # reset plot window partition
+
 
 # 8cvi
 
@@ -96,11 +102,8 @@ hist(college$acceptRate)
 hist(college$enrollRate)
 par(mfrow=c(1,1))
 
-
 # enrollment rate vs acceptance rate
-
 cor(college$acceptRate, college$enrollRate)
-
 ggplot(college, aes(x=acceptRate, y=enrollRate)) + 
   geom_point() +
   theme_bw()
@@ -127,5 +130,4 @@ ggplot(college, aes(x=Private, y=acceptRate)) +
 ggplot(college, aes(x=Private, y=enrollRate)) +
   geom_boxplot() +
   theme_bw()
-
 
