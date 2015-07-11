@@ -51,9 +51,10 @@ summary(college)
 # 8cii
 pairs(college[, 1:10])
 
-# 8ciii # # # # # #
+# 8ciii
 ggplot(data=college, aes(x=Private, y=Outstate)) + 
-  geom_boxplot()
+  geom_boxplot() +
+  theme_bw()
 
 # 8civ
 Elite=rep("No",nrow(college))
@@ -64,7 +65,8 @@ college <- data.frame(college, Elite)
 summary(college)
 
 ggplot(data=college, aes(x=Elite, y=Outstate)) + 
-  geom_boxplot()
+  geom_boxplot() +
+  theme_bw()
 
 # 8cv
 par(mfrow=c(3,4)) # split plot window into 4x3 grid
