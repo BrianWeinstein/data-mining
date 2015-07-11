@@ -1,6 +1,6 @@
 #############################
-# Brian Weinstein
-# STAT S4240 
+# Brian Weinstein - bmw2148
+# STAT S4240 002
 # Homework 1, Problem 1
 # 2015-07-13
 #
