@@ -18,6 +18,7 @@ setwd("~/Documents/data-mining/homework_1")
 
 # load libraries
 library(ggplot2)
+library(dplyr)
 
 
 #################
@@ -78,13 +79,53 @@ lapply(c(5, 10, 20, 40), function(bins) hist(college$S.F.Ratio, breaks=bins, mai
 par(mfrow=c(1,1)) # reset plot window partition
 
 # 8cvi
-# Continue exploring the data, and provide a brief summary of what you discover.
+
+# define an acceptance rate
+college$acceptRate <- college$Accept / college$Apps
+hist(college$acceptRate)
+summary(college$acceptRate)
+
+# define an enrollment rate
+college$enrollRate <- college$Enroll / college$Accept
+hist(college$enrollRate)
+summary(college$enrollRate)
+
+# histograms
+par(mfrow=c(1,2))
+hist(college$acceptRate)
+hist(college$enrollRate)
+par(mfrow=c(1,1))
 
 
+# enrollment rate vs acceptance rate
 
+cor(college$acceptRate, college$enrollRate)
 
+ggplot(college, aes(x=acceptRate, y=enrollRate)) + 
+  geom_point() +
+  theme_bw()
 
+# summary stats for public vs private schools
+college %>%
+  group_by(Private) %>%
+  summarize(min.acceptRate=min(acceptRate),
+            median.acceptRate=median(acceptRate),
+            mean.acceptRate=mean(acceptRate),
+            max.acceptRate=max(acceptRate),
+            min.enrollRate=min(enrollRate),
+            median.enrollRate=median(enrollRate),
+            mean.enrollRate=mean(enrollRate),
+            max.enrollRate=max(enrollRate)) %>%
+  as.data.frame()
 
+# boxplot of acceptance rate for public vs private schools
+ggplot(college, aes(x=Private, y=acceptRate)) +
+  geom_boxplot() +
+  theme_bw()
 
+# boxplot of enrollment rate for public vs private schools
+ggplot(college, aes(x=Private, y=enrollRate)) +
+  geom_boxplot() +
+  theme_bw()
 
 
