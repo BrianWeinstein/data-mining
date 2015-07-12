@@ -1,8 +1,8 @@
 #############################
-# < Your Name Here >
-# STAT S4240 
-# Homework <HW Number> , Problem <Problem Number>
-# < Homework Due Date >
+# Brian Weinstein - bmw2148
+# STAT S4240 002
+# Homework 1, Problem 4
+# 2015-07-13
 #
 # The following code loads the eigenfaces data and
 # performs a set of simple loading and plotting functions
@@ -12,29 +12,28 @@
 # Setup
 #################
 
-# make sure R is in the proper working directory
-# note that this will be a different path for every machine
-setwd("You fill this out")
+# set working directory
+setwd("~/Documents/data-mining/homework_1")
 
-# first include the relevant libraries
-# note that a loading error might mean that you have to
-# install the package into your R distribution.  From the
-# command line, type install.packages("pixmap")
+# load libraries
 library(pixmap)
 
+
 #################
-# Problem 1a
+# Problem 4a
 #################
 
 # paste or type in the given code here
-face_01 = read.pnm(file = "CroppedYale/yaleB01/yaleB01_P00A-005E+10.pgm")
+face_01 <- read.pnm(file = "datasets/CroppedYale/yaleB01/yaleB01_P00A-005E+10.pgm")
 
 # now plot the data
 plot(face_01)
+
 # give it a nice title
 title('hw01_01a: the first face')
+
 # save the result
-filename = 'hw01_01a.png'
+filename <- 'writeup/4_01a.png'
 dev.copy(device=png, file=filename, height=600, width=800)
 dev.off()
 
@@ -42,28 +41,34 @@ dev.off()
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+class(face_01)
+
+dim(getChannels(face_01))
 
 #----- END YOUR CODE BLOCK HERE -----#
 
 #################
-# Problem 1b
+# Problem 4b
 #################
 
 # make face_01 into a matrix with the given command
-face_01_matrix = getChannels(face_01)
+face_01_matrix <- getChannels(face_01)
 
 # load a second face
-face_02 = read.pnm(file = "CroppedYale/yaleB02/yaleB02_P00A-005E+10.pgm")
-face_02_matrix = getChannels(face_02)
+face_02 <- read.pnm(file = "datasets/CroppedYale/yaleB02/yaleB02_P00A-005E+10.pgm")
+face_02_matrix <- getChannels(face_02)
 
 # combine two faces into a single data matrix and make that a pixmap
-faces_matrix = cbind( face_01_matrix , face_02_matrix )
-faces = pixmapGrey( faces_matrix )
+faces_matrix <- cbind(face_01_matrix, face_02_matrix)
+faces <- pixmapGrey(faces_matrix)
 
 # plot to verify
 plot(faces)
 
 # find min and max values 
+
+range(faces_matrix)
+
 
 #----- START YOUR CODE BLOCK HERE -----#
 
