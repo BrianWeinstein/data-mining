@@ -14,6 +14,7 @@
 	]{hyperref}
 \usepackage[textsize=tiny]{todonotes}
 \usepackage{float}
+\setlength\parindent{0pt}
 
 %\usepackage{fancyhdr}
 %\usepackage{amssymb}
@@ -169,16 +170,122 @@ I also looked at summary statistics by public vs private schools.
 
 \section*{Problem 2: \href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 2.4, Exercise 9}
 
+\subsection*{Part a}
+Quantitative predictors: \texttt{mpg}, \texttt{cylinders}, \texttt{displacement}, \texttt{horsepower}, \texttt{weight}, \texttt{acceleration}, \texttt{year}\\
+Qualitative predictors: \texttt{origin}, \texttt{name}
+
+\subsection*{Part b}
+\begin{verbatim}
+  statistic  mpg cylinders displacement horsepower weight acceleration year origin name
+1       min  9.0         3           68         46   1613          8.0   70     NA   NA
+2       max 46.6         8          455        230   5140         24.8   82     NA   NA
+\end{verbatim}
+
+\subsection*{Part c}
+
+\begin{verbatim}
+  statistic       mpg cylinders displacement horsepower    weight acceleration      year origin name
+1      mean 23.445918  5.471939      194.412  104.46939 2977.5842    15.541327 75.979592     NA   NA
+2        sd  7.805007  1.705783      104.644   38.49116  849.4026     2.758864  3.683737     NA   NA
+\end{verbatim}
+
+\subsection*{Part d}
+
+\begin{verbatim}
+  statistic       mpg cylinders displacement horsepower    weight acceleration      year origin name
+1       min 11.000000  3.000000     68.00000   46.00000 1649.0000     8.500000 70.000000     NA   NA
+2       max 46.600000  8.000000    455.00000  230.00000 4997.0000    24.800000 82.000000     NA   NA
+3      mean 24.404430  5.373418    187.24051  100.72152 2935.9715    15.726899 77.145570     NA   NA
+4        sd  7.867283  1.654179     99.67837   35.70885  811.3002     2.693721  3.106217     NA   NA
+\end{verbatim}
+
+\subsection*{Part e}
 
 
+MPG generally increased between 1970 and 1982.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_vs_year.png}
+	\caption{MPG vs year}
+	\label{fig:mpg_vs_year}
+\end{figure}
+
+As the number of cylinders increases, MPG generally decreases.\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_by_cyl.png}
+	\caption{MPG vs number of cylinders}
+	\label{fig:mpg_vs_cyl}
+\end{figure}
 
 
+There isn't a particularly strong relationship between weight and acceleration (at least not one that is easily seen graphically).
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_acc_vs_weight.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
+But there is a strong negative relationship between horsepower and acceleration.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_acc_vs_hp.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+And unsurprisingly, as the weight of a car increases, so does its horsepower.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_hp_vs_weight.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
+Japanese cars (3) are usually lighter than American (1) and European (2) cars.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_weight_by_origin.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
+Japanese cars also have higher MPG.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_by_origin.png}
+	\caption{MPG by origin}
+	\label{fig:mpg_by_origin}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_vs_weight_by_origin.png}
+	\caption{MPG by origin}
+	\label{fig:mpg_vs_weight_by_origin}
+\end{figure}
+
+\subsection*{Part f}
+
+As shown in \textbf{Part e}, the year (Figure \ref{fig:mpg_vs_year}), number of cylinders (Figure \ref{fig:mpg_vs_cyl}), origin (Figure \ref{fig:mpg_by_origin}), and weight (Figure \ref{fig:mpg_vs_weight_by_origin}) of a car are all useful in predicting MPG. Displacement is also a useful predictor, but acceleration is not (see Figures \ref{fig:mpg_by_disp} and \ref{fig:mpg_by_acc} below).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_vs_disp.png}
+	\caption{MPG vs displacemet}
+	\label{fig:mpg_by_disp}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{9e_mpg_vs_acc.png}
+	\caption{MPG vs acceleration}
+	\label{fig:mpg_by_acc}
+\end{figure}
 
 
 
