@@ -168,6 +168,9 @@ data.frame(rowNum=row.names(Boston), Boston) %>%
   filter(rm > 7) %>%
   nrow()
 
+# suburbs with more than 8 rooms/dwelling
+data.frame(rowNum=row.names(Boston), Boston) %>%
+  filter(rm > 8)
 
 
 
