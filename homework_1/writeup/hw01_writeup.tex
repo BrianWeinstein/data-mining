@@ -442,8 +442,14 @@ These towns all have very low crime rates and have lower values for \texttt{lsta
 
 \subsection*{Part a}
 
-The $CroppedYale/yaleB01/yaleB01_P00A-005E+10.pgm$ image is of class \texttt{pixmapGrey} (part of the \texttt{pixmap} package). The original image is made up of 32,256 pixels (192 x 168).
+The \texttt{CroppedYale/yaleB01/yaleB01\_P00A-005E+10.pgm} image is of class \texttt{pixmapGrey} (part of the \texttt{pixmap} package). The original image is made up of 32,256 pixels (192 x 168).
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=4in]{4_01a.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
 \subsection*{Part b}
@@ -451,6 +457,44 @@ The $CroppedYale/yaleB01/yaleB01_P00A-005E+10.pgm$ image is of class \texttt{pix
 A pixel value in a \texttt{pixmapGrey}-classed pgm image ranges from 0 to 1. A value of 0 corresponds to a black pixel, and a value of 1 corresponds to a white pixel.\\
 
 In \texttt{faces\_matrix}, which combines images 1 and 2, the pixel values range from 0.007843137 to 1.000000000.
+
+
+\subsection*{Part c}
+
+\texttt{dir\_list\_1} lists all of the directories stored in the \texttt{CroppedYale/} directory. It has 38 elements, a sample of which is shown below.
+\begin{verbatim}
+> dir_list_1
+ [1] "yaleB01" "yaleB02" "yaleB03" "yaleB04" "yaleB05" "yaleB06" "yaleB07"
+...
+[36] "yaleB37" "yaleB38" "yaleB39"
+\end{verbatim}
+
+
+\texttt{dir\_list\_2} lists all of the individual files stored in the \texttt{CroppedYale/} directory, showing the full file path of each file stored in the directory. It has 2,547 elements, a sample of which is shown below.
+\begin{verbatim}
+> head(dir_list_2, 10)
+ [1] "yaleB01/DEADJOE"                  "yaleB01/WS_FTP.LOG"              
+ [3] "yaleB01/yaleB01_P00_Ambient.pgm"  "yaleB01/yaleB01_P00.info"        
+ [5] "yaleB01/yaleB01_P00A-005E-10.pgm" "yaleB01/yaleB01_P00A-005E+10.pgm"
+ [7] "yaleB01/yaleB01_P00A-010E-20.pgm" "yaleB01/yaleB01_P00A-010E+00.pgm"
+ [9] "yaleB01/yaleB01_P00A-015E+20.pgm" "yaleB01/yaleB01_P00A-020E-10.pgm"
+> tail(dir_list_2, 10)
+ [1] "yaleB39/yaleB39_P00A+070E+45.pgm" "yaleB39/yaleB39_P00A+085E-20.pgm"
+ [3] "yaleB39/yaleB39_P00A+085E+20.pgm" "yaleB39/yaleB39_P00A+095E+00.pgm"
+ [5] "yaleB39/yaleB39_P00A+110E-20.pgm" "yaleB39/yaleB39_P00A+110E+15.pgm"
+ [7] "yaleB39/yaleB39_P00A+110E+40.pgm" "yaleB39/yaleB39_P00A+110E+65.pgm"
+ [9] "yaleB39/yaleB39_P00A+120E+00.pgm" "yaleB39/yaleB39_P00A+130E+20.pgm"
+\end{verbatim}
+
+\subsection*{Part d}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4_01d.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
 \end{document}
