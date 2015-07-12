@@ -1,7 +1,8 @@
 \documentclass[11pt]{article}
-\usepackage{fullpage} % changes the margin
+\usepackage[lmargin=1.in,rmargin=1.in,tmargin=1.in,bmargin=1in]{geometry}
 \usepackage{setspace}
 \usepackage[pdftex]{graphicx}
+\usepackage{titling}
 \usepackage[
 	pdfauthor={Brian Weinstein},
 	pdftitle={Homework 1},
@@ -17,20 +18,24 @@
 \usepackage{float}
 \setlength\parindent{0pt}
 
-%\usepackage{fancyhdr}
-%\usepackage{amssymb}
-%\pagestyle{fancy}
-%\lhead{Homework 01}
-%\chead{Brian Weinstein}
-%\rhead{STAT S4240 002}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\lhead{\thetitle}
+\chead{\theauthor}
+\rhead{\thedate}
 
 
 
-\begin{document}
+\begin{document} \thispagestyle{empty}
 
-\noindent
-\large\textbf{STAT S4240 002, Homework 1} \hfill \textbf{Brian Weinstein}\\
-\normalsize 13 July, 2015 \hfill  bmw2148\\
+%\noindent
+%\large\textbf{STAT S4240 002, Homework 1} \hfill \textbf{Brian Weinstein}\\
+%\normalsize July 13, 2015 \hfill  bmw2148\\
+
+\title{STAT S4240 002, Homework 1}
+\author{Brian Weinstein (bmw2148)}
+\date{July 13, 2015}
+\maketitle
 
 
 \section*{Problem 1: \href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 2.4, Exercise 8}
