@@ -85,7 +85,7 @@ Row means
  [96]   3.5962333  22.3461063   0.7145014   6.3080005  64.8829556
 \end{code}
 
-The nonzero column means indicate that each variable isn't centered. In this context the row means indicate \todo{row means?}. 
+The nonzero column means indicate that each variable isn't centered. In this context the row means are just the average of the coordinates for each observation. 
  
  
 \part Empirical covariance matrix
@@ -177,7 +177,7 @@ Euclidean distance from the original data points.
 \end{code}
 
 
-\part The error vectors are more or less orthogonal to the direction of the first principal component. This is because the error vectors are defined as the direction from the original points to their \textit{orthogonal projections} onto the reduced-dimension space, which, in this case, is primarily captured by the first PC. \todo{code isn't working}
+\part The error vectors are more or less orthogonal to the direction of the first principal component. This is because the error vectors are defined as the direction from the original points to their \textit{orthogonal projections} onto the reduced-dimension space, which, in this case, is primarily captured by the first PC. \todo{code isn't working. loadings are correct. errors start at or after calculating the scores}
 
 
 \end{parts}
