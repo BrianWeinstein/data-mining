@@ -21,15 +21,15 @@
 \setlength\parindent{0pt}
 
 
-\qformat{\textbf{Question \thequestion: \thequestiontitle}\quad \hfill}
+\qformat{\textbf{Problem \thequestion: \thequestiontitle}\quad \hfill}
 
 
 \pagestyle{headandfoot}
 \runningheadrule
 \firstpageheader{}{}{}
 \runningheader{\thetitle}{\theauthor}{\thedate}
-\firstpagefooter{}{}{}
-\runningfooter{}{}{}
+\firstpagefooter{}{\thepage}{}
+\runningfooter{}{\thepage}{}
 
 
 
@@ -100,7 +100,7 @@ x5 568.41046 -817.33884 445.25112  683.5587 6288.8569
 
 The diagonal values tell us the variance of the variable indicated in the column (or equivalently, the row). The off-diagonal elements indicate the covariance between the two variables that intersect at that element.
 
-\part The eigenvalues and eigenvectors of the empirical covariance matrix \texttt{sig}
+\part The eigenvalues and eigenvectors of the empirical covariance matrix \texttt{sig}:
 \begin{code}
 > eigen(sig)
 $values
@@ -119,36 +119,91 @@ Since it's a symmetric matrix, \texttt{sig} has the same left eigenvectors as ri
 
 \part The loadings are the eigenvectors (see part c). The scores are:
 \begin{code}
-> data%*%evecs
-              [,1]        [,2]         [,3]          [,4]          [,5]
-  [1,]  -58.606720   6.8128841  0.358690823 -0.0080251123  6.008437e-03
-  [2,]   17.967890 -10.0253314  0.313590316 -0.0051005161 -1.454011e-02
-  [3,] -103.557582   0.7721199  0.080912663  0.0422848507  5.511172e-04
+> data%*%t(evecs)
+               [,1]          [,2]         [,3]         [,4]        [,5]
+  [1,]  -25.9233299  -50.96254603  -4.06557021  -8.91350845 -10.7755359
+  [2,]   13.3064897   13.56908728   6.16049505   0.82185440   4.8621981
+  [3,]  -37.6872799  -93.30323983  -1.02562352 -18.15040050 -16.3848300
 ...
- [98,]  -47.475844  14.1883799  0.376152574 -0.0311565338 -9.890383e-03
- [99,]  -35.054501   1.1602437 -0.421041558 -0.0220654373  5.471521e-04
-[100,]  209.221180 -15.3655377 -0.100374179  0.0323254561  4.388429e-03
+ [98,]  -27.0931525  -38.88284377  -8.26671502  -5.26069573 -10.6527232
+ [99,]  -13.1627026  -31.46409161  -1.20277265  -5.83681744  -5.6197025
+[100,]   85.7232563  184.73133084  10.16179165  33.54024954  36.1560703
 \end{code}
 
-\part
+\part Proportion of variance explained
 
-asdf
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{1e.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+We only need one principal component. PC \#1 accounts for 97\% of the variance on its own, and including any additional PCs introduces more complexity than it's worth.
+
+\part The scores for the new observations:
+
+\begin{code}
+> data2%*%t(evecs2)
+            [,1]      [,2]      [,3]         [,4]        [,5]
+[1,]  -6.0639533 -65.32443 16.218208 -20.96720620  -9.5868019
+[2,]   0.6933977  25.72910 -7.634907   8.55181447   3.0468391
+[3,]   2.0721371   1.97324  1.575201   0.03853202   0.9148939
+[4,] -19.8318245 -61.16333  1.351568 -15.86750900 -14.2082956
+[5,]  -8.6663467 -16.36235 -2.214696  -3.63623397  -5.2164795
+\end{code}
+
+where \texttt{data2} has been column centered.
 
 
+\part Coordinates of the projections in the original space:
+
+\begin{code}
+          [,1]      [,2]      [,3]      [,4]      [,5]
+[1,] 19.784390 -23.98670 -4.490318  2.926516  62.37239
+[2,]  8.929318 -13.05966 15.636393 19.583344 148.49230
+[3,] 12.023796 -16.96235  8.788414 17.696985 126.33419
+[4,] 18.112666 -18.77458  3.584542 -7.331764  64.91650
+[5,] 13.426490 -16.02315  9.502113  7.001699 108.06507
+\end{code}
+
+Euclidean distance from the original data points.
+\begin{code}
+[1] 28.18795
+[1] 11.86206
+[1] 1.822025
+[1] 21.34198
+[1] 6.733404
+\end{code}
 
 
-
-
-
-
-
-
-
+\part The error vectors are more or less orthogonal to the direction of the first principal component. This is because the error vectors are defined as the direction from the original points to their \textit{orthogonal projections} onto the reduced-dimension space, which, in this case, is primarily captured by the first PC. \todo{code isn't working}
 
 
 \end{parts}
 
-\titledquestion{question}
+
+
+
+\titledquestion{PCA with Yale Faces B}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 \titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 3.7.3}
