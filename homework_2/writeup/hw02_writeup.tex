@@ -246,9 +246,16 @@ After incorporating 14 or 15 eigenfaces, the person is relatively recognizable
 
 
 
-\part Part f
+\part After removing the images of Subject 1, re-running PCA on the reduced dataset, and then reconstructing a photo of Subject 1 using the principal components; the reconstructed photo (right) has similar features to the original (left), but it's definitely not a recognizable image.
 
+It doesn't look much like the original image because we excluded all photos of Subject 1 before computing the principal components. As such, the features present in the subject's original photos weren't incorporated into either the ``mean face'' or into the principal components.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{2f_cropped.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
 \end{parts}

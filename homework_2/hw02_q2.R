@@ -158,20 +158,20 @@ par(mfrow=c(1,1))
 #----- START YOUR CODE BLOCK HERE -----#
 
 # read in photo
-b01 <- read.pnm(file = "datasets/CroppedYale/yaleB05/yaleB05_P00A+010E+00.pgm")
-plot(pixmapGrey(getChannels(b01)))
+b05 <- read.pnm(file = "datasets/CroppedYale/yaleB05/yaleB05_P00A+010E+00.pgm")
+plot(pixmapGrey(getChannels(b05)))
 
 # convert photo to vector and center
-b01 <- c(as.vector(t(getChannels(b01))) - as.vector(t(mean_face)))
+b05 <- c(as.vector(t(getChannels(b05))) - as.vector(t(mean_face)))
 
 # use the first n eigenfaces
 eigenfaces <- t(pc$rotation[, 1:120])
 
 # calculate the scores
-scores <- (eigenfaces %*% b01)
+scores <- (eigenfaces %*% b05)
 
 # compute the face as a lin comb of the first n eigenfaces
-b01_comps <- lapply(1:120,
+b05_comps <- lapply(1:120,
                     function(dim){
                       if(dim==1){
                         (t(eigenfaces[1:1, ]) * scores[1:1,]) + as.vector(t(mean_face))
@@ -182,12 +182,12 @@ b01_comps <- lapply(1:120,
 )
 
 # plot the face using a lin comb of 5 eigenfaces
-plot(pixmapGrey(t(matrix(b01_comps[[5]], 168, 192))))
+plot(pixmapGrey(t(matrix(b05_comps[[5]], 168, 192))))
 
 # generate a plot of the first 24 face constructions
 par(mfrow=c(5,5))
 for(dim in 1:24){
-  plot(pixmapGrey(t(matrix(b01_comps[[dim]], 168, 192))),
+  plot(pixmapGrey(t(matrix(b05_comps[[dim]], 168, 192))),
        main = as.character(dim))
 }
 plot.new() # to fill in the 25th slot
@@ -198,7 +198,7 @@ par(mfrow=c(1,1))
 # generate a plot of 120 face constructions in steps of 5
 par(mfrow=c(5,5))
 for(dim in c(1, seq(from=5, to=120, by=5))){
-  plot(pixmapGrey(t(matrix(b01_comps[[dim]], 168, 192))),
+  plot(pixmapGrey(t(matrix(b05_comps[[dim]], 168, 192))),
        main = as.character(dim))
 }
 dev.copy(device=png, file='writeup/2e_faces120.png', height=1000, width=1000*(168/192))
@@ -215,18 +215,46 @@ par(mfrow=c(1,1))
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+# remove photos of subject 1 from the matrix
+faces_matrix_wo1 <- faces_matrix[-(1:4), ]
+
+# recenter the data
+mean_face_wo1 <- apply(faces_matrix_wo1, 2, mean)
+mean_face_wo1 <- matrix(mean_face_wo1, 192, 168, byrow=TRUE)
+faces_centered_wo1 <- apply(faces_matrix_wo1, 2, function(col){col - mean(col)})
+
+# pca on the centered data
+pc_wo1 <- prcomp(faces_centered_wo1)
 
 
 
 
 
 
+# read in photo
+b01 <- read.pnm(file = "datasets/CroppedYale/yaleB01/yaleB01_P00A+010E+00.pgm")
+b01orig <- b01 # for plotting later
+plot(pixmapGrey(getChannels(b01)))
 
+# convert photo to vector and center
+b01 <- c(as.vector(t(getChannels(b01))) - as.vector(t(mean_face_wo1)))
 
+# use the all eigenfaces
+eigenfaces_wo1 <- t(pc_wo1$rotation)
 
+# calculate the scores
+scores_wo1 <- (eigenfaces_wo1 %*% b01)
 
+# compute the face as a lin comb of all of the eigenfaces
+b01_comps <- (t(eigenfaces_wo1) %*% scores_wo1) + as.vector(t(mean_face_wo1))
 
-
+# plot the face using a lin comb of all of the eigenfaces
+par(mfrow=c(1,2))
+plot(pixmapGrey(getChannels(b01orig)))
+plot(pixmapGrey(t(matrix(b01_comps, 168, 192))))
+dev.copy(device=png, file='writeup/2f.png', height=500, width=500*(168/192))
+dev.off()
+par(mfrow=c(1,1))
 
 
 
