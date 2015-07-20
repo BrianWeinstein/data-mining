@@ -92,8 +92,10 @@ mean_face <- apply(faces_matrix, 2, mean)
 mean_face <- matrix(mean_face, 192, 168, byrow=TRUE)
 plot(pixmapGrey(mean_face))
 dev.copy(device=png, file='writeup/2b_mean_face.png', height=192, width=168)
-#dev.copy(device=png, file='writeup/2b_mean_face.png', height=400, width=400*(168/192))
 dev.off()
+# plot(pixmapGrey(matrix(apply(faces_matrix, 2, mean), 400, 400*(168/192), byrow=TRUE)))
+# dev.copy(device=png, file='writeup/2b_mean_face_fixed.png', height=400, width=400*(168/192))
+# dev.off()
 
 #----- END YOUR CODE BLOCK HERE -----#
 
@@ -159,38 +161,51 @@ par(mfrow=c(1,1))
 b01 <- read.pnm(file = "datasets/CroppedYale/yaleB05/yaleB05_P00A+010E+00.pgm")
 plot(pixmapGrey(getChannels(b01)))
 
-# convert photo to vector #and center
-b01 <- as.vector(getChannels(b01), mode="any") #- as.vector(t(mean_face)
+# convert photo to vector and center
+b01 <- c(as.vector(t(getChannels(b01))) - as.vector(t(mean_face)))
 
 # use the first n eigenfaces
-eigenfaces <- pc$rotation[, 1:120]
+eigenfaces <- t(pc$rotation[, 1:120])
 
-# calculate the weights
-b01_coefs <- t(eigenfaces) %*% (b01)
+# calculate the scores
+scores <- (eigenfaces %*% b01)
 
-# create recursive list of weighted photos
+# compute the face as a lin comb of the first n eigenfaces
 b01_comps <- lapply(1:120,
-                    function(i){
-                      
-                      if(i==1){
-                        eigenfaces[, 1] * (b01_coefs[1])
+                    function(dim){
+                      if(dim==1){
+                        (t(eigenfaces[1:1, ]) * scores[1:1,]) + as.vector(t(mean_face))
                       } else{
-                        eigenfaces[, 1:i] %*% (b01_coefs[1:i])
+                        (t(eigenfaces[1:dim, ]) %*% scores[1:dim,]) + as.vector(t(mean_face))
                       }
                     }
 )
 
+# plot the face using a lin comb of 5 eigenfaces
+plot(pixmapGrey(t(matrix(b01_comps[[5]], 168, 192))))
 
-plot(pixmapGrey(t(matrix(b01_comps[[120]], 168, 192))))
+# generate a plot of the first 24 face constructions
+par(mfrow=c(5,5))
+for(dim in 1:24){
+  plot(pixmapGrey(t(matrix(b01_comps[[dim]], 168, 192))),
+       main = as.character(dim))
+}
+plot.new() # to fill in the 25th slot
+dev.copy(device=png, file='writeup/2e_faces24.png', height=1000, width=1000*(168/192))
+dev.off()
+par(mfrow=c(1,1))
 
-
-
+# generate a plot of 120 face constructions in steps of 5
+par(mfrow=c(5,5))
+for(dim in c(1, seq(from=5, to=120, by=5))){
+  plot(pixmapGrey(t(matrix(b01_comps[[dim]], 168, 192))),
+       main = as.character(dim))
+}
+dev.copy(device=png, file='writeup/2e_faces120.png', height=1000, width=1000*(168/192))
+dev.off()
+par(mfrow=c(1,1))
 
 #----- END YOUR CODE BLOCK HERE -----#
-
-
-
-
 
 
 
@@ -199,6 +214,28 @@ plot(pixmapGrey(t(matrix(b01_comps[[120]], 168, 192))))
 #################
 
 #----- START YOUR CODE BLOCK HERE -----#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #----- END YOUR CODE BLOCK HERE -----#
