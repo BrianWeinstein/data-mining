@@ -98,8 +98,8 @@ rawData.colmeans
 # center the data
 data2 <- t(t(rawData2)-rawData.colmeans)
 
-# empirical covariance matrix
-sig2 <- (1/nrow(data2))*t(data2)%*%data2
+# empirical covariance matrix, using loadings from the previous 100 observations
+sig2 <- (1/nrow(data))*t(data)%*%data
 
 # eigenvalues and eigenvectors
 evals2 <- eigen(sig2)$values
@@ -121,9 +121,9 @@ scores2_2d <- scores2
 scores2_2d[, 3:5] <- 0
 
 # coordinates of the projections in the original space, x'
-projInOrigSpace <- scores2_2d%*%evecs2
-projInOrigSpace <- t(t(projInOrigSpace)+rawData.colmeans) # uncenter the data
-
+projInOrigSpace <- t(evecs2) %*% scores2_2d
+projInOrigSpace <- projInOrigSpace + matrix(rep(t(as.matrix(rawData.colmeans)),5),5,5, byrow=T) # uncenter the data
+projInOrigSpace
 
 # define a distance function
 euc.dist <- function(vec1, vec2){
@@ -135,6 +135,10 @@ for(obs in 1:nrow(data2)){
   dist <- euc.dist(projInOrigSpace[obs, ], rawData2[obs, ])
   print(dist)
 }
+
+plot(projInOrigSpace[,1:2] - rawData2[,1:2])
+arrows(0,0, 10*evecs2[1,1], 10*scores2_2d[2,1],lwd=3,col="red")
+
 
 
 

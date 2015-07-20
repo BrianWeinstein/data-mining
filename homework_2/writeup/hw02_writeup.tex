@@ -115,6 +115,8 @@ $vectors
 [5,]  0.97892389  0.1636064  0.002946326 -0.07133967  0.09921159
 \end{code}
 
+where the eigenvectors are represented as columns in the \texttt{\$vectors} component.
+
 Since it's a symmetric matrix, \texttt{sig} has the same left eigenvectors as right eigenvectors.
 
 \part The loadings are the eigenvectors (see part c). The scores are:
@@ -144,40 +146,37 @@ We only need one principal component. PC \#1 accounts for 97\% of the variance o
 \part The scores for the new observations:
 
 \begin{code}
-> data2%*%t(evecs2)
-            [,1]      [,2]      [,3]         [,4]        [,5]
-[1,]  -6.0639533 -65.32443 16.218208 -20.96720620  -9.5868019
-[2,]   0.6933977  25.72910 -7.634907   8.55181447   3.0468391
-[3,]   2.0721371   1.97324  1.575201   0.03853202   0.9148939
-[4,] -19.8318245 -61.16333  1.351568 -15.86750900 -14.2082956
-[5,]  -8.6663467 -16.36235 -2.214696  -3.63623397  -5.2164795
+           [,1]       [,2]      [,3]        [,4]        [,5]
+[1,] -16.855658 -66.790142  6.776900 -15.3066224  -8.5649268
+[2,]   4.861635  26.789815 -3.710359   6.3835809   2.7072847
+[3,]   2.536648   1.355434  1.590414  -0.2530266   0.8012362
+[4,] -30.863147 -57.879087 -5.570018  -9.7920953 -12.6610309
+[5,] -11.787862 -14.507653 -3.653059  -1.8812777  -4.6755677
 \end{code}
-
-where \texttt{data2} has been column centered.
 
 
 \part Coordinates of the projections in the original space:
 
 \begin{code}
-          [,1]      [,2]      [,3]      [,4]      [,5]
-[1,] 19.784390 -23.98670 -4.490318  2.926516  62.37239
-[2,]  8.929318 -13.05966 15.636393 19.583344 148.49230
-[3,] 12.023796 -16.96235  8.788414 17.696985 126.33419
-[4,] 18.112666 -18.77458  3.584542 -7.331764  64.91650
-[5,] 13.426490 -16.02315  9.502113  7.001699 108.06507
+           [,1]       [,2]     [,3]    [,4]     [,5]
+[1,] -10.871807 -38.241645 4.665532 7.91427 62.13875
+[2,]  37.567018  66.568511 4.665532 7.91427 62.13875
+[3,]  16.460691  25.729053 4.665532 7.91427 62.13875
+[4,]   5.978194 -41.185647 4.665532 7.91427 62.13875
+[5,]   1.857621  -6.945432 4.665532 7.91427 62.13875
 \end{code}
 
 Euclidean distance from the original data points.
 \begin{code}
-[1] 28.18795
-[1] 11.86206
-[1] 1.822025
-[1] 21.34198
-[1] 6.733404
+[1] 81.49181
+[1] 88.13304
+[1] 36.01572
+[1] 79.53924
+[1] 19.04255
 \end{code}
 
 
-\part The error vectors are more or less orthogonal to the direction of the first principal component. This is because the error vectors are defined as the direction from the original points to their \textit{orthogonal projections} onto the reduced-dimension space, which, in this case, is primarily captured by the first PC. \todo{code isn't working. loadings are correct. errors start at or after calculating the scores}
+\part The error vectors are more or less orthogonal to the direction of the first principal component. This is because the error vectors are defined as the direction from the original points to their \textit{orthogonal projections} onto the reduced-dimension space, which is primarily captured by the first PC.
 
 
 \end{parts}
