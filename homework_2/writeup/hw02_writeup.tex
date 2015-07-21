@@ -263,20 +263,42 @@ It doesn't look much like the original image because we excluded all photos of S
 \titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 3.7.3}
 
 \begin{parts}
-\part
-asdfasdf
-\end{parts}
 
+\part iii. For a fixed value of IQ and GPA, males earn more on average than females provided that the GPA is high enough.
+$$Salary=50+(20*GPA)+(0.07*IQ)+(35*I_{female})+(0.01*GPA*IQ)+(-10*GPA*I_{female})$$
+Thus, once GPA is high enough, the $(-10*GPA*I_{female})$ term dominates and reduces female salary.
+
+\part For a female ($I_{female}=1$) with $IQ=110$ and $GPA=4.0$, the salary (in thousands of dollars) is predicted to be:
+$$Salary=50+(20*4.0)+(0.07*110)+(35*1)+(0.01*4.0*110)+(-10*4.0*1)=137.1$$
+
+\part False. A small coefficient for the GPA/IQ interaction term does not mean there's little \textit{evidence} of an interaction effect. To determine how strong the evidence of interaction is, we should look at the p-value of the term's coefficient $\beta_4$. If the term is significant, the small coefficient indicates that the interaction between GPA and IQ has little effect on Salary.
+
+\end{parts}
 
 
 \titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 3.7.4}
 
 \begin{parts}
-\part
-asdfasdf
+
+\part If the true relationship is linear (with a random error term), the training RSS for the cubic regression will be lower than the training RSS for the linear regression. This is because, while using training data, a more flexible model (e.g., cubic vs linear) will always fit better than a less flexible one.
+
+\part The testing RSS, on the other hand, will be lower for the linear regression than the testing RSS for the cubic regression. By using the cubic regression on a truly linear relationship, the RSS will indicate that we overfit the data.
+
+\part If we know that the relationship isn't linear, but we don't know how far it is from linear, we'll still have a lower RSS for the cubic regression than for the linear regression. As noted in part (a), this is because a more flexible model will always reduce the training RSS more than a less flexible one.
+
+\part If we again know that the relationship isn't linear, but we don't know how far it is from linear, it's not clear which model will have a lower test RSS. We need to know if the model is closer to linear or closer to cubic to determine which model would have a lower test RSS.
+
+
+
+
+
+
 \end{parts}
 
 \titledquestion{question}
+
+\titledquestion{question}
+
 
 
 %\begin{figure}[H]
