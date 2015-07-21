@@ -4,8 +4,7 @@
 # Homework 2, Problem 2
 # 2015-07-23
 #
-# The following code loads the eigenfaces data and
-# performs a set of simple loading and plotting functions
+# The following code performs PCA on the eigenfaces data.
 #############################
 
 #################
@@ -14,7 +13,6 @@
 
 # set working directory
 setwd("~/Documents/data-mining/homework_2")
-
 
 # load libraries
 library(pixmap)
