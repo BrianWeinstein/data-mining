@@ -1,24 +1,21 @@
 #############################
-# < Your Name Here >
-# STAT S4240 
-# Homework <HW Number> , Problem <Problem Number>
-# < Homework Due Date >
+# Brian Weinstein - bmw2148
+# STAT S4240 002
+# Homework 2, Problem 2
+# 2015-07-23
 #
-# The following code loads the eigenfaces data and
-# performs a set of simple loading and plotting functions
+# The following code performs kNN.
 #############################
 
 #################
 # Setup
 #################
 
-# make sure R is in the proper working directory
-# note that this will be a different path for every machine
-setwd("")
+# set working directory
+setwd("~/Documents/data-mining/homework_2")
 
-# first include the relevant libraries
-# note that a loading error might mean that you have to
-# install the package into your R distribution.  
+# load libraries
+
 
 #################
 # Problem 5a
@@ -28,14 +25,43 @@ setwd("")
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+# read in the data
+rawData <- read.csv(file="datasets/hw02_q5.csv")
+
+# calculate distances among all pairs of inputs
+distances <- dist(rawData[, 1:2])
+
+# convert distances to matrix
+distances <- as.matrix(distances, type="any")
 
 #----- END YOUR CODE BLOCK HERE -----#
+
+
 
 #################
 # Problem 5b
 #################
 
 #----- START YOUR CODE BLOCK HERE -----#
+
+# write a function to get the k closest points
+GetKClosest <- function(k){
+
+}
+
+pointNum=1 # row number of point to leave out
+
+# k nearest neighbors to use
+k=3
+
+
+# get the row numbers of the k nearest neighbors, excluding the point iteself
+nearestPtRow <- which(distances[pointNum, ] %in% sort(distances[pointNum, ])[2:(k+1)])
+
+# estimate the left out value as the mean of the k nearest y values
+estimate <- mean(rawData[nearestPtRow, "y"])
+
+
 
 
 #----- END YOUR CODE BLOCK HERE -----#
