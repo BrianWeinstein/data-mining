@@ -44,22 +44,25 @@ distances <- as.matrix(distances, type="any")
 
 #----- START YOUR CODE BLOCK HERE -----#
 
-# write a function to get the k closest points
-GetKClosest <- function(k){
+GetEstimate <- function(testPoint, k){
+  # write a function to estimate the value of a point left out in LOO cross validation in kNN
+  # Inputs: testPoint = row number of point to leave out
+  #         k = number of nearest neighbors to use
+  # Output: estimated Y value for the point in row testPoint
+  
+  # get the row numbers of the k nearest neighbors, excluding the point iteself
+  nearestPtRow <- which(distances[testPoint, ] %in% sort(distances[testPoint, ])[2:(k+1)])
+  
+  # estimate the left out value as the mean of the k nearest y values
+  mean(rawData[nearestPtRow, "y"])
 
 }
 
-pointNum=1 # row number of point to leave out
-
-# k nearest neighbors to use
-k=3
 
 
-# get the row numbers of the k nearest neighbors, excluding the point iteself
-nearestPtRow <- which(distances[pointNum, ] %in% sort(distances[pointNum, ])[2:(k+1)])
 
-# estimate the left out value as the mean of the k nearest y values
-estimate <- mean(rawData[nearestPtRow, "y"])
+
+
 
 
 
