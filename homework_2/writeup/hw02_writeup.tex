@@ -297,7 +297,7 @@ $$Salary=50+(20*4.0)+(0.07*110)+(35*1)+(0.01*4.0*110)+(-10*4.0*1)=137.1$$
 
 
 
-\titledquestion{$k$NN}
+\titledquestion{$k$NN: Leave One Out Cross Validation}
 
 \begin{parts}
 
@@ -348,40 +348,71 @@ $$Salary=50+(20*4.0)+(0.07*110)+(35*1)+(0.01*4.0*110)+(-10*4.0*1)=137.1$$
 \end{codeSmall}
 
 
+\part Using data point 1 as the testing set and the remaining points as a training set, $k$NN for $k \in \{1, 2, \ldots, 10\}$ yields the following testing MSE ($MSE^{k,1}_{test}$), and training MSE ($MSE^{k,1}_{train}$):
+
+\begin{code}
+   kValue      testMSE   trainMSE
+1       1 0.0196656396 0.00000000
+2       2 0.0268217849 0.02985241
+3       3 0.0152777998 0.04586316
+4       4 0.0014688370 0.06450685
+5       5 0.0032978182 0.06215975
+6       6 0.0008362937 0.07557705
+7       7 0.0192632625 0.08332753
+8       8 0.0656325812 0.10100542
+9       9 0.0964741491 0.10691977
+10     10 0.1647239008 0.13030996
+\end{code}
 
 
+\part Now performing leave one out cross validation, the testing and training MSEs are determined as
+$$MSE^{k}_{test}=\frac{1}{n}\sum_{i=1}^{n}MSE^{k,i}_{test}\quad\quad\quad
+MSE^{k}_{train}=\frac{1}{n}\sum_{i=1}^{n}MSE^{k,i}_{train}$$
+
+where $i$ is the index of the data point left out and $n=20$, the size of our dataset.
 
 
+\begin{code}
+   kValue    testMSE   trainMSE
+1       1 0.11442243 0.00000000
+2       2 0.09968107 0.02880520
+3       3 0.10780903 0.04563393
+4       4 0.08949504 0.05918676
+5       5 0.10361356 0.06048102
+6       6 0.09665278 0.07129727
+7       7 0.10652029 0.07454968
+8       8 0.12116962 0.08717699
+9       9 0.12600534 0.09846322
+10     10 0.14395572 0.11061502
+\end{code}
 
 
+\part We should use the $k$ value that minimizes the test MSE, which here is $k=4$.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=6in]{5d.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
-
-
-
-
-
-
-
-
+In choosing a value of $k$ that generates the best model, we should always use the one that minimizes the testing error, and never the training error. We can't assess model accuracy using the training error since, by construction, the training error will decrease as model flexibility increases (i.e., as $k$ decreases). We need to assess the model using \textit{previously unseen data}, which, in this case, means minimizing the testing error.
 
 \end{parts}
 
 
-\titledquestion{question}
+%\titledquestion{Facial Recognition with $1$NN and PCA}
+%
+%\begin{parts}
+%
+%\part
+%
+%\end{parts}
 
-
-
-%\begin{figure}[H]
-%	\centering
-%	\includegraphics[width=6.5in]{8a.png}
-%	%\caption{}
-%	%\label{fig:figName}
-%\end{figure}
 
 
 \end{questions}
 
-\listoftodos
+%\listoftodos
 
 \end{document}

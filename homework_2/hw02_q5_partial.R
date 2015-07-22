@@ -15,6 +15,9 @@
 setwd("~/Documents/data-mining/homework_2")
 
 # load libraries
+library(reshape2)
+library(ggplot2)
+
 
 
 #################
@@ -45,12 +48,12 @@ distances <- as.matrix(distances, type="any")
 #----- START YOUR CODE BLOCK HERE -----#
 
 
-GetEstimate <- function(k, pointNumber, testPoint){
-  # write a function to estimate the value of a point in LOO CV in kNN
-  # Inputs: k = number of nearest neighbors to use
+EstimatePoint <- function(k, pointNumber, testPoint){
+  # estimates the value of a point in LOO CV in kNN
+  # inputs: k = number of nearest neighbors to use
   #         pointNumber = row number of point to estimate
   #         testPoint = row number of point to leave out
-  # Output: estimated Y value for the point in row testPoint
+  # output: estimated Y value for the point in row pointNumber
   
   # get the row numbers of the k nearest neighbors to pointNumber
   nearestPtRows <- which(distances[pointNumber, ] %in% sort(distances[pointNumber,][-testPoint])[1:k])
@@ -61,29 +64,39 @@ GetEstimate <- function(k, pointNumber, testPoint){
 }
 
 
-
-k=1
-testPoint=3
-
-# for a given k and test point, estimate the values at each point
-estimates <- as.vector(
-  sapply(1:nrow(rawData),
-         function(pointNumber){
-           estimates <- GetEstimate(k=k, pointNumber=pointNumber, testPoint=testPoint)
-         }
+GetAllEstimates <- function(k, testPoint){
+  # for a given k and test point, estimates the values at all points
+  # inputs: k = number of nearest neighbors to use
+  #         testPoint = row number of point to leave out
+  # output: estimated Y values for the points in row testPoint
+  
+  as.vector(
+    sapply(1:nrow(rawData),
+           function(pointNumber){
+             estimates <- EstimatePoint(k=k, pointNumber=pointNumber, testPoint=testPoint)
+           }
+    )
   )
-)
-
-estimates
+}
 
 
+# initialize an empty data frame for k, testMSE, and trainMSE
+errorTableLO1 <- data.frame(k=integer(), testMSE=numeric(), trainMSE=numeric())
 
-
-
-
+# for testPoint=1, find the testing and training MSE using k=1:10
+for(kValue in 1:10){
+  
+  estimates <- GetAllEstimates(k=kValue, testPoint=1)
+  
+  testMSE <- mean((estimates[1]-rawData$y[1])^2) # including only the testPoint
+  trainMSE <- mean((estimates[-1]-rawData$y[-1])^2) # excluding the testPoint
+  
+  errorTableLO1 <- rbind(errorTableLO1, cbind(kValue, testMSE, trainMSE))
+  
+  rm(estimates, kValue, trainMSE, testMSE)
+}
 
 #----- END YOUR CODE BLOCK HERE -----#
-
 
 
 
@@ -94,34 +107,64 @@ estimates
 #----- START YOUR CODE BLOCK HERE -----#
 
 
-GetEstimate <- function(testPoint, k){
-  # write a function to estimate the value of a point left out in LOO cross validation in kNN
-  # Inputs: testPoint = row number of point to leave out
-  #         k = number of nearest neighbors to use
-  # Output: estimated Y value for the point in row testPoint
+# initialize an empty data frame for k, testMSE, and trainMSE
+errorTableK <- data.frame(k=integer(), testMSE=numeric(), trainMSE=numeric())
+
+# for each testPoint=1:nrow(rawData), ind the testing and training MSE using k=1:10
+for(kValue in 1:10){
   
-  # get the row numbers of the k nearest neighbors
-  nearestPtRows <- which(distances[testPoint, ] %in% sort(distances[testPoint, ])[1:k])
+  # initialize an empty data frame for testPoint, testMSE, and trainMSE
+  errorTableTestPoint <- data.frame(testPoint=integer(), testMSE=numeric(), trainMSE=numeric())
   
-  # estimate the left out value as the mean of the k nearest y values
-  mean(rawData[nearestPtRows, "y"])
+  for(testPoint in 1:nrow(rawData)){
+    
+    estimates <- GetAllEstimates(k=kValue, testPoint=testPoint)
+    
+    testMSE <- mean((estimates[testPoint]-rawData$y[testPoint])^2) # including only the testPoint
+    trainMSE <- mean((estimates[-testPoint]-rawData$y[-testPoint])^2) # excluding the testPoint
+    
+    errorTableTestPoint <- rbind(errorTableTestPoint, cbind(testPoint, testMSE, trainMSE))
+    
+    rm(estimates, trainMSE, testMSE)
+    
+  }
+  
+  # average over all the MSEs in errorTableTestPoint and insert into errorTableK
+  errorTableK <- rbind(errorTableK,
+                       cbind(kValue=kValue,
+                             testMSE=mean(errorTableTestPoint$testMSE),
+                             trainMSE=mean(errorTableTestPoint$trainMSE)
+                       )
+  )
+  
+  rm(kValue, errorTableTestPoint)
   
 }
-
-TrainMSE <- function(true, estimate){
-  mean((true-estimate)^2)
-  
-  
-}
-
-
-
-
 
 #----- END YOUR CODE BLOCK HERE -----#
+
+
+
+#################
+# Problem 5d
+#################
+
+plotData <- melt(errorTableK,
+                 id.vars="kValue",
+                 measure.vars=c("testMSE", "trainMSE"),
+                 variable.name="set",
+                 value.name="MSE")
+
+ggplot(plotData, aes(x=kValue, y=MSE, color=set, shape=set)) +
+  geom_point() +
+  geom_line() + 
+  theme_bw()
+ggsave(filename='writeup/5d.png', width=5, height=2.5)
+
+
+
+
 
 #################
 # End of Script
 #################
-
-
