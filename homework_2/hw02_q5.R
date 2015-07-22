@@ -159,7 +159,7 @@ ggplot(plotData, aes(x=kValue, y=MSE, color=set, shape=set)) +
   geom_point() +
   geom_line() + 
   theme_bw()
-ggsave(filename='writeup/5d.png', width=5, height=2.5)
+ggsave(filename='writeup/5d.png', width=6, height=2)
 
 
 
