@@ -1,7 +1,7 @@
 #############################
 # Brian Weinstein - bmw2148
 # STAT S4240 002
-# Homework 2, Problem 2
+# Homework 2, Problem 5
 # 2015-07-23
 #
 # The following code performs kNN.

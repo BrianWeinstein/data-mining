@@ -1,52 +1,109 @@
 #############################
-# < Your Name Here >
-# STAT S4240 
-# Homework <HW Number> , Problem <Problem Number>
-# < Homework Due Date >
+# Brian Weinstein - bmw2148
+# STAT S4240 002
+# Homework 2, Problem 6
+# 2015-07-23
 #
-# The following code loads the eigenfaces data and
-# performs a set of simple loading and plotting functions
+# The following code performs facial recognition with kNN.
 #############################
+
+
 
 #################
 # Setup
 #################
 
-# make sure R is in the proper working directory
-# note that this will be a different path for every machine
-setwd("")
+# set working directory
+setwd("~/Documents/data-mining/homework_2")
 
-# first include the relevant libraries
-# note that a loading error might mean that you have to
-# install the package into your R distribution.  
+# load libraries 
 library(pixmap)
+library(class)
+
+
 
 #################
 # Problem 6a
 #################
 
-views_6a = c('P00A+000E+00', 'P00A+005E+10', 'P00A+005E-10', 'P00A+010E+00' )
+views_6a <- c('P00A+000E+00', 'P00A+005E+10', 'P00A+005E-10', 'P00A+010E+00')
 
 # load the data and save it as a matrix with the name face_matrix_6a
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+# all subjects
+pic_list <- 1:38
+
+# initalize an empty list
+pic_data <- vector("list", length(pic_list)*length(views_6a))
+
+# initialize and empty dataframe to store subject and view labels
+subjectViewLabels <- data.frame(subject=character(), view=factor())
+
+# list directories/files within directory
+dir_list <- dir(path="datasets/CroppedYale/", all.files=FALSE)
+
+# Read in each pgm file to the pic_data list
+pos <- 1
+for(i in 1:length(pic_list)){
+  for(j in 1:length(views_6a)){
+    
+    # construct file path
+    filename <- sprintf("datasets/CroppedYale/%s/%s_%s.pgm",
+                        dir_list[pic_list[i]], dir_list[pic_list[i]], views_6a[j])
+    
+    # read in pgm file and assign to list
+    pic_data[pos] <- read.pnm(file=filename)
+    
+    # record subject number and view label
+    subjectViewLabels <- rbind(subjectViewLabels,
+                               data.frame(subject=dir_list[pic_list[i]], view=views_6a[j]))
+    
+    
+    # increment list index
+    pos <- pos + 1
+  }
+}
+rm(i, j, pos) # clear index variables
+
+# initialize an empty matrix for all photos
+face_matrix_6a <- vector()
+
+# Convert each pgm file to a row of data
+face_matrix_6a <- lapply(pic_data,
+                       function(img){
+                         as.vector(t(getChannels(img)), mode="any")
+                       }
+)
+
+# row bind each vector (i.e., each photo) into one matrix
+face_matrix_6a <- as.matrix(do.call(rbind, face_matrix_6a))
 
 #----- END YOUR CODE BLOCK HERE -----#
 
 # Get the size of the matrix for use later
-fm_6a_size = dim(face_matrix_6a)
+fm_6a_size <- dim(face_matrix_6a)
 # Use 4/5 of the data for training, 1/5 for testing
-ntrain_6a = floor(fm_6a_size[1]*4/5) # Number of training obs
-ntest_6a = fm_6a_size[1]-ntrain_6a # Number of testing obs
+ntrain_6a <- floor(fm_6a_size[1]*4/5) # Number of training obs
+ntest_6a <- fm_6a_size[1]-ntrain_6a # Number of testing obs
 set.seed(1) # Set pseudo-random numbers so everyone gets the same output
-ind_train_6a = sample(1:fm_6a_size[1],ntrain_6a) # Training indices
-ind_test_6a = c(1:fm_6a_size[1])[-ind_train_6a] # Testing indices
+ind_train_6a <- sample(1:fm_6a_size[1],ntrain_6a) # Training indices
+ind_test_6a <- c(1:fm_6a_size[1])[-ind_train_6a] # Testing indices
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+# first 5 files in the training set
+head(subjectViewLabels[sort(ind_train_6a), ], 5)
+
+# first 5 files in the testing set
+head(subjectViewLabels[sort(ind_test_6a), ], 5)
+
+
 
 #----- END YOUR CODE BLOCK HERE -----#
+
+
 
 #################
 # Problem 6b
@@ -55,7 +112,48 @@ ind_test_6a = c(1:fm_6a_size[1])[-ind_train_6a] # Testing indices
 #----- START YOUR CODE BLOCK HERE -----#
 
 
+# column center faces_matrix
+face_train_centered_6a <- apply(face_matrix_6a[ind_train_6a, ], 2, function(col){col - mean(col)})
+#faces_centered <- scale((faces_matrix), center=TRUE, scale=FALSE)
+
+# define a mean face vector
+mean_face <- apply(face_matrix_6a[ind_train_6a, ], 2, mean)
+
+# pca on the centered data
+pc <- prcomp(face_train_centered_6a)
+
+
+# use the first n eigenfaces
+loadings <- t(pc$rotation[, 1:25])
+
+# calculate the scores
+scores <- (face_train_centered_6a %*% t(loadings))
+
+# centered test face #1
+c.tf <- face_matrix_6a[ind_test_6a[28], ] - mean_face
+
+c.tf.score <- c.tf %*% t(loadings)
+
+distances <- as.matrix(dist(rbind(c.tf.score, scores)), type="any")
+
+distances
+
+distances <- as.vector(distances[1, -1])
+distances
+
+closestScoreIndex <- which(distances %in% min(distances))
+
+closestScore <- scores[closestScoreIndex, ]
+
+closestFace <- closestScore %*% loadings
+
+plot(pixmapGrey(matrix(closestFace + mean_face, 192, 168, byrow=TRUE))) # estimated face
+plot(pixmapGrey(matrix(c.tf + mean_face, 192, 168, byrow=TRUE))) # starting face
+
+
 #----- END YOUR CODE BLOCK HERE -----#
+
+
 
 #################
 # Problem 6c
