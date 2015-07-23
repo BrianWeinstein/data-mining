@@ -19,6 +19,7 @@ setwd("~/Documents/data-mining/homework_2")
 # load libraries 
 library(pixmap)
 library(class)
+library(dplyr)
 
 
 
@@ -39,7 +40,7 @@ pic_list <- 1:38
 pic_data <- vector("list", length(pic_list)*length(views_6a))
 
 # initialize and empty dataframe to store subject and view labels
-subjectViewLabels <- data.frame(subject=character(), view=factor())
+subjectViewLabels <- data.frame(subject=character(), view=character())
 
 # list directories/files within directory
 dir_list <- dir(path="datasets/CroppedYale/", all.files=FALSE)
@@ -67,14 +68,20 @@ for(i in 1:length(pic_list)){
 }
 rm(i, j, pos) # clear index variables
 
+# subject view labels key
+subjectViewLabels$key <- paste(subjectViewLabels$subject, subjectViewLabels$view, sep="/")
+subjectViewLabels$subject <- as.character(subjectViewLabels$subject)
+subjectViewLabels$view <- as.character(subjectViewLabels$view)
+
+
 # initialize an empty matrix for all photos
 face_matrix_6a <- vector()
 
 # Convert each pgm file to a row of data
 face_matrix_6a <- lapply(pic_data,
-                       function(img){
-                         as.vector(t(getChannels(img)), mode="any")
-                       }
+                         function(img){
+                           as.vector(t(getChannels(img)), mode="any")
+                         }
 )
 
 # row bind each vector (i.e., each photo) into one matrix
@@ -94,10 +101,10 @@ ind_test_6a <- c(1:fm_6a_size[1])[-ind_train_6a] # Testing indices
 #----- START YOUR CODE BLOCK HERE -----#
 
 # first 5 files in the training set
-head(subjectViewLabels[sort(ind_train_6a), ], 5)
+head(subjectViewLabels[(ind_train_6a), ], 5)
 
 # first 5 files in the testing set
-head(subjectViewLabels[sort(ind_test_6a), ], 5)
+head(subjectViewLabels[(ind_test_6a), ], 5)
 
 
 
@@ -111,45 +118,35 @@ head(subjectViewLabels[sort(ind_test_6a), ], 5)
 
 #----- START YOUR CODE BLOCK HERE -----#
 
+# define a mean face vector
+mean_face <- apply(face_matrix_6a, 2, mean)
 
 # column center faces_matrix
-face_train_centered_6a <- apply(face_matrix_6a[ind_train_6a, ], 2, function(col){col - mean(col)})
-#faces_centered <- scale((faces_matrix), center=TRUE, scale=FALSE)
-
-# define a mean face vector
-mean_face <- apply(face_matrix_6a[ind_train_6a, ], 2, mean)
+face_cent <- apply(face_matrix_6a, 2, function(col){col - mean(col)})
 
 # pca on the centered data
-pc <- prcomp(face_train_centered_6a)
+pc_train <- prcomp(face_cent[ind_train_6a, ])
 
 
-# use the first n eigenfaces
-loadings <- t(pc$rotation[, 1:25])
+# use the first 25 PCs
+loadings_train <- t(pc_train$rotation[, 1:25])
 
 # calculate the scores
-scores <- (face_train_centered_6a %*% t(loadings))
+scores_train <- (face_cent[ind_train_6a, ] %*% t(loadings_train))
+scores_test <- (face_cent[ind_test_6a, ] %*% t(loadings_train))
 
-# centered test face #1
-c.tf <- face_matrix_6a[ind_test_6a[28], ] - mean_face
+# run knn
+estimates <- as.character(
+  knn(train=scores_train,
+      test=scores_test,
+      cl=subjectViewLabels[ind_train_6a, "subject"],
+      k=1)
+)
 
-c.tf.score <- c.tf %*% t(loadings)
+estimatesTable <- data.frame(cbind(estimates, subjects=as.character(subjectViewLabels[ind_test_6a, "subject"])))
+estimatesTable$correct <- estimatesTable$estimate==estimatesTable$subject
 
-distances <- as.matrix(dist(rbind(c.tf.score, scores)), type="any")
-
-distances
-
-distances <- as.vector(distances[1, -1])
-distances
-
-closestScoreIndex <- which(distances %in% min(distances))
-
-closestScore <- scores[closestScoreIndex, ]
-
-closestFace <- closestScore %*% loadings
-
-plot(pixmapGrey(matrix(closestFace + mean_face, 192, 168, byrow=TRUE))) # estimated face
-plot(pixmapGrey(matrix(c.tf + mean_face, 192, 168, byrow=TRUE))) # starting face
-
+estimatesTable
 
 #----- END YOUR CODE BLOCK HERE -----#
 

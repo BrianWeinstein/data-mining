@@ -408,27 +408,28 @@ In choosing a value of $k$ that generates the best model, we should always use t
 \part First five files in the training set:
 \begin{code}
 > head(subjectViewLabels[sort(ind_train_6a), ], 5)
-  subject         view
-1 yaleB01 P00A+000E+00
-2 yaleB01 P00A+005E+10
-3 yaleB01 P00A+005E-10
-4 yaleB01 P00A+010E+00
-6 yaleB02 P00A+005E+10
+  subject         view                  key
+1 yaleB01 P00A+000E+00 yaleB01/P00A+000E+00
+2 yaleB01 P00A+005E+10 yaleB01/P00A+005E+10
+3 yaleB01 P00A+005E-10 yaleB01/P00A+005E-10
+4 yaleB01 P00A+010E+00 yaleB01/P00A+010E+00
+6 yaleB02 P00A+005E+10 yaleB02/P00A+005E+10
 \end{code}
 
 First five files in the testing set:
 \begin{code}
 > head(subjectViewLabels[sort(ind_test_6a), ], 5)
-   subject         view
-5  yaleB02 P00A+000E+00
-12 yaleB03 P00A+010E+00
-18 yaleB05 P00A+005E+10
-20 yaleB05 P00A+010E+00
-21 yaleB06 P00A+000E+00
+   subject         view                  key
+5  yaleB02 P00A+000E+00 yaleB02/P00A+000E+00
+12 yaleB03 P00A+010E+00 yaleB03/P00A+010E+00
+18 yaleB05 P00A+005E+10 yaleB05/P00A+005E+10
+20 yaleB05 P00A+010E+00 yaleB05/P00A+010E+00
+21 yaleB06 P00A+000E+00 yaleB06/P00A+000E+00
 \end{code}
 
-%\part
-%
+\part In my model, it looks like I correctly classified all 31 test photos. This isn't entirely surprising, though, since each test subject had at least one photo of them present in the training group.
+
+
 %\part
 %
 %\part
