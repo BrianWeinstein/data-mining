@@ -8,7 +8,6 @@
 #############################
 
 # load libraries
-library(dplyr)
 library(caret)
 
 # classify the testing documents as either Hamilton or Madison
