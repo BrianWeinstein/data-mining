@@ -80,52 +80,89 @@ See \texttt{hw03\_q1.R} for code.
 
 
 
-\titledquestion{}
+\titledquestion{Naive Bayes Function}
 
+We first estimate the log priors based on the log of the proportion of training documents attributed to each author.
 
-\begin{parts}
+$$p(\textrm{author}=\texttt{author})=\log\left(\frac{\textrm{\# of training documents attributed to }\texttt{author}}{\textrm{total \# of training documents}}\right)$$
 
-\part asdf asdf asdf
+Then, using (1) the log probabilities for the dictionary in a Hamilton-authored document and (2) the log probabilities for the dictionary in a Madison-authored document (as computed in \textbf{Problem 1}), we can input a new document-term-matrix and classify each document as belonging to one of the authors.
+
 \begin{code}
-> apply(rawData, 2, mean)
-       x1        x2        x3        x4        x5 
- 6.049104 -8.277221  4.665532  7.914270 62.138753 
+naive.bayes <- function(logp.hamilton.train, logp.madison.train,
+                        log.prior.hamilton, log.prior.madison, dtm.test){
+  # Performs naive bayes classification
+  # Inputs:  logp.hamilton.train  :   vector of log probabilities of words
+  #                                     occurring in the hamilton training data
+  #          logp.madison.train   :   vector of log probabilities of words
+  #                                     occurring in the madison training data
+  #          log.prior.hamilton   :   the log prior of hamilton documents
+  #          log.prior.madison    :   the log prior of madison documents 
+  #          dtm.test             :   a document-term-matrix to classify
+  # Output:  Classification labels for each document in dtm.test
+  
+  # calculate the log posterior probabilities
+  log.post.hamilton <- log.prior.hamilton + (dtm.test %*% logp.hamilton.train)
+  log.post.madison <- log.prior.madison + (dtm.test %*% logp.madison.train)
+  
+  # compare the log posterior probabilities and assign to the author
+  # with highest probability
+  prediction <- data.frame(logPostHam=log.post.hamilton,
+                           logPostMad=log.post.madison)
+  prediction$pred <- (log.post.hamilton >= log.post.madison)
+  prediction$pred <- gsub(TRUE, "Hamilton", prediction$pred)
+  prediction$pred <- gsub(FALSE, "Madison", prediction$pred)
+  
+  # return a vector of the predictions
+  return(prediction$pred)
+  
+}
 \end{code}
- 
-\part ASDF ASDF ASDF
-\begin{codeSmall}
-> apply(rawData, 1, mean)
-  [1]  -0.1277116  20.8162864  -8.8984358  25.5999204  -9.7472153
-  [6]  64.0626702  22.0392371  23.3914888  31.7598224 -13.8680290
-...
- [91]   1.2105932  21.2145724  -8.4896595  19.0639963  20.9767512
- [96]   3.5962333  22.3461063   0.7145014   6.3080005  64.8829556
-\end{codeSmall}
 
- 
- 
-%\begin{figure}[H]
-%	\centering
-%	\includegraphics[width=5in]{2c.png}
-%	%\caption{}
-%	%\label{fig:figName}
-%\end{figure}
+\titledquestion{question 3}
+
+Using the \texttt{confusionMatrix} function from the \texttt{caret} library
+
+\begin{itemize}
+\item \textbf{Accuracy:} 63\% accurate (\% of the test papers that are classified correctly)
+\item \textbf{True Positive Rate:} 100\% (Hamilton classified as Hamilton divided by the total amount of testing Hamilton papers)
+\item \textbf{True Negative Rate:} 9\% (Madison classified as Madison divided by the total amount of testing Madison papers)
+\item \textbf{False Positive Rate:} 91\% (Madison classified as Hamilton divided by the total amount of testing Madison)
+\item \textbf{False Negative Rate:} 0\% (Hamilton classified as Madison divided by the total amount of testing Hamilton)
+\end{itemize}
 
 
-\end{parts}
+\begin{code}
+> confusionMatrix(data=predictions$pred,
++                 reference=predictions$trueValue,
++                 dnn=c("Prediction", "True Value"),
++                 positive="Hamilton")
+Confusion Matrix and Statistics
 
-
-
-\titledquestion{question name 2}
-
-\begin{parts}
-
-\part \lipsum[3-5]
-
-
-\end{parts}
-
-
+          True Value
+Prediction Hamilton Madison
+  Hamilton       16      10
+  Madison         0       1
+                                         
+               Accuracy : 0.6296         
+                 95% CI : (0.4237, 0.806)
+    No Information Rate : 0.5926         
+    P-Value [Acc > NIR] : 0.427258       
+                                         
+                  Kappa : 0.106          
+ Mcnemar's Test P-Value : 0.004427       
+                                         
+            Sensitivity : 1.00000        
+            Specificity : 0.09091        
+         Pos Pred Value : 0.61538        
+         Neg Pred Value : 1.00000        
+             Prevalence : 0.59259        
+         Detection Rate : 0.59259        
+   Detection Prevalence : 0.96296        
+      Balanced Accuracy : 0.54545        
+                                         
+       'Positive' Class : Hamilton       
+\end{code}
 
 
 
