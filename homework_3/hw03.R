@@ -1,10 +1,10 @@
 #############################
-# < Your Name Here >
-# STAT S4240 
-# Homework 03
-# < Homework Due Date >
+# Brian Weinstein - bmw2148
+# STAT S4240 002
+# Homework 3, Problem 1
+# 2015-07-30
 #
-# The following code analyzes the federalist papers
+# The following code includes functions to analyze the federalist papers
 #############################
 
 #################
