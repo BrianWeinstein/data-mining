@@ -68,15 +68,67 @@
 
 See \texttt{hw03\_q1.R} for code.
 
-%\begin{parts}
-%
-%\part
-%\part
-%\part
-%\part
-%\part
-%
-%\end{parts}
+\begin{parts}
+
+\part Text pre-processing
+\begin{codeSmall}
+# load functions from hw03.R
+source("hw03.R")
+
+# preprocess text
+preprocess.directory("datasets/FederalistPapers/fp_hamilton_train")
+preprocess.directory("datasets/FederalistPapers/fp_hamilton_test")
+preprocess.directory("datasets/FederalistPapers/fp_madison_train")
+preprocess.directory("datasets/FederalistPapers/fp_madison_test")
+\end{codeSmall}
+
+\part Loading the cleaned data
+\begin{codeSmall}
+hamilton.train <- read.directory("datasets/FederalistPapers/fp_hamilton_train_clean")
+hamilton.test <- read.directory("datasets/FederalistPapers/fp_hamilton_test_clean")
+madison.train <- read.directory("datasets/FederalistPapers/fp_madison_train_clean")
+madison.test <- read.directory("datasets/FederalistPapers/fp_madison_test_clean")
+\end{codeSmall}
+
+
+\part Create a dictionary from all of the documents
+\begin{codeSmall}
+dictionary <- make.sorted.dictionary.df(c(hamilton.train, hamilton.test,
+                                          madison.train, madison.test))
+\end{codeSmall}
+
+
+
+
+\part Creating document-term-matrices for each of the datasets
+\begin{codeSmall}
+dtm.hamilton.train <- make.document.term.matrix(infiles=hamilton.train,
+                                                dictionary=dictionary)
+dtm.hamilton.test <- make.document.term.matrix(infiles=hamilton.test,
+                                               dictionary=dictionary)
+dtm.madison.train <- make.document.term.matrix(infiles=madison.train,
+                                               dictionary=dictionary)
+dtm.madison.test <- make.document.term.matrix(infiles=madison.test,
+                                              dictionary=dictionary)
+\end{codeSmall}
+
+
+
+
+
+
+
+\part Compute the log probabilities for the dictionary in each of the document datasets
+\begin{codeSmall}
+mu=1/nrow(dictionary)
+
+logp.hamilton.train <- make.log.pvec(dtm.hamilton.train, mu)
+logp.hamilton.test <- make.log.pvec(dtm.hamilton.test, mu)
+logp.madison.train <- make.log.pvec(dtm.madison.train, mu)
+logp.madison.test <- make.log.pvec(dtm.madison.test, mu)
+\end{codeSmall}
+
+\end{parts}
 
 
 
@@ -121,7 +173,7 @@ naive.bayes <- function(logp.hamilton.train, logp.madison.train,
 
 \titledquestion{question 3}
 
-Using the \texttt{confusionMatrix} function from the \texttt{caret} library
+Using the \texttt{confusionMatrix} function from the \texttt{caret} library:
 
 \begin{itemize}
 \item \textbf{Accuracy:} 63\% accurate (\% of the test papers that are classified correctly)

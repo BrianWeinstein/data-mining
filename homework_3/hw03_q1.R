@@ -49,7 +49,8 @@ madison.test <- read.directory("datasets/FederalistPapers/fp_madison_test_clean"
 # Problem 1c
 #################
 
-dictionary <- make.sorted.dictionary.df(c(hamilton.train, hamilton.test, madison.train, madison.test))
+dictionary <- make.sorted.dictionary.df(c(hamilton.train, hamilton.test,
+                                          madison.train, madison.test))
 
 
 
@@ -58,10 +59,14 @@ dictionary <- make.sorted.dictionary.df(c(hamilton.train, hamilton.test, madison
 # Problem 1d
 #################
 
-dtm.hamilton.train <- make.document.term.matrix(infiles=hamilton.train, dictionary=dictionary)
-dtm.hamilton.test <- make.document.term.matrix(infiles=hamilton.test, dictionary=dictionary)
-dtm.madison.train <- make.document.term.matrix(infiles=madison.train, dictionary=dictionary)
-dtm.madison.test <- make.document.term.matrix(infiles=madison.test, dictionary=dictionary)
+dtm.hamilton.train <- make.document.term.matrix(infiles=hamilton.train,
+                                                dictionary=dictionary)
+dtm.hamilton.test <- make.document.term.matrix(infiles=hamilton.test,
+                                               dictionary=dictionary)
+dtm.madison.train <- make.document.term.matrix(infiles=madison.train,
+                                               dictionary=dictionary)
+dtm.madison.test <- make.document.term.matrix(infiles=madison.test,
+                                              dictionary=dictionary)
 
 
 
