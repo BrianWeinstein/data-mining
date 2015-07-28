@@ -171,7 +171,7 @@ naive.bayes <- function(logp.hamilton.train, logp.madison.train,
 }
 \end{code}
 
-\titledquestion{question 3}
+\titledquestion{Assessing Model Performance}
 
 Using the \texttt{confusionMatrix} function from the \texttt{caret} library:
 
@@ -216,6 +216,30 @@ Prediction Hamilton Madison
        'Positive' Class : Hamilton       
 \end{code}
 
+
+
+
+\titledquestion{5-fold Cross Validation}
+
+\begin{parts}
+
+\part For each value of μ, estimate the correct classification rate, the false negative rate and the false positive rate using 5-fold cross-validation. Summarize your results in three graphs.
+
+
+\part What seems to be the best value for $\mu$? Why?
+
+\part For each value of $\mu$, train on the full training set and test on the full testing set. Summarize the correct classification rate, the false negative rate and the false positive rate in three graphs. Does your answer from (b) still seem the best value? Why or why not?
+
+
+\part How close are the rates estimated from cross-validation to the true rates on the testing set (give percentage error)? What could account for di↵erences? Give one way the differences between the cross-validation rate estimates and the rates on the training sets could be minimized.
+
+
+
+
+
+
+
+\end{parts}
 
 
 \end{questions}

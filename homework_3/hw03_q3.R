@@ -7,6 +7,9 @@
 # The following code analyzes the federalist papers
 #############################
 
+# this code relies on variables defined in hw03_q2.R (and hw03_q1.R)
+# source("hw03_q2.R")
+
 # load libraries
 library(caret)
 
@@ -27,12 +30,4 @@ confusionMatrix(data=predictions$pred,
                 reference=predictions$trueValue,
                 dnn=c("Prediction", "True Value"),
                 positive="Hamilton")
-
-
-
-
-
-
-
-
 

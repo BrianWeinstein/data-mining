@@ -7,6 +7,9 @@
 # The following code analyzes the federalist papers
 #############################
 
+# this code relies on variables defined in hw03_q1.R
+# source("hw03_q1.R")
+
 # Estimate the log priors from the training data
 logPriorHamiltonTrain <- log(nrow(dtm.hamilton.train)/(nrow(dtm.hamilton.train)+nrow(dtm.madison.train)))
 logPriorMadisonTrain <- log(nrow(dtm.madison.train)/(nrow(dtm.hamilton.train)+nrow(dtm.madison.train)))
