@@ -15,6 +15,12 @@ library(dplyr)
 library(ggplot2)
 theme_set(theme_bw())
 
+
+
+#################
+# Problem 4a
+#################
+
 # Set seed for pseudo-random numbers
 set.seed(1)
 
@@ -91,7 +97,6 @@ for(muChoice in 1:length(muList)){
   }
 }
 
-
 # estimate model accuracies
 correctRate
 ggplot(data.frame(mu=muList,
@@ -99,7 +104,6 @@ ggplot(data.frame(mu=muList,
        aes(x=log(mu), y=correctRate)) +
   geom_line() + geom_point()
 ggsave(filename='writeup/4a_correctRate.png', width=5, height=2)
-
 
 falseNegRate
 ggplot(data.frame(mu=muList,
@@ -114,6 +118,17 @@ ggplot(data.frame(mu=muList,
        aes(x=log(mu), y=falsePosRate)) +
   geom_line() + geom_point()
 ggsave(filename='writeup/4a_falsePosRate.png', width=5, height=2)
+
+
+
+#################
+# Problem 4c
+#################
+
+
+
+
+
 
 
 

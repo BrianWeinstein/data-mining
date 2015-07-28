@@ -223,8 +223,9 @@ Prediction Hamilton Madison
 
 \begin{parts}
 
-\part For each value of μ, estimate the correct classification rate, the false negative rate and the false positive rate using 5-fold cross-validation. Summarize your results in three graphs.
+\part For each value of $\mu \in \left\{ \frac{0.1}{\left|D\right|}, \frac{1}{\left|D\right|}, \frac{10}{\left|D\right|}, \frac{100}{\left|D\right|}\frac{1000}{\left|D\right|} \right\}$, where $\left|D\right|=4875$ is the size of our dictionary; estimations of the the correct classification rate, the false negative rate, and the false positive rate using 5-fold cross-validation are outlined below. For each of the metrics, the table indicates the value for each of the 25 tests and the graph indicates averages over the 5 tests for each choice of $\mu$.
 
+\textbf{Correct Rate:}
 \begin{code}
     fold1 fold2 fold3 fold4 fold5
 mu1   0.7   0.7   0.7   0.7   0.7
@@ -241,15 +242,48 @@ mu5   1.0   0.8   0.9   0.8   1.0
 	%\label{fig:figName}
 \end{figure}
 
+\textbf{False Negative Rate:}
+\begin{code}
+    fold1 fold2 fold3 fold4 fold5
+mu1     0     0     0     0     0
+mu2     0     0     0     0     0
+mu3     0     0     0     0     0
+mu4     0     0     0     0     0
+mu5     0     0     0     0     0
+\end{code}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4a_falseNegRate.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+\textbf{False Positive Rate:}
+\begin{code}
+        fold1     fold2     fold3     fold4     fold5
+mu1 1.0000000 1.0000000 1.0000000 1.0000000 1.0000000
+mu2 0.6666667 1.0000000 1.0000000 1.0000000 1.0000000
+mu3 0.6666667 1.0000000 1.0000000 0.6666667 0.6666667
+mu4 0.3333333 1.0000000 0.6666667 0.6666667 0.0000000
+mu5 0.0000000 0.6666667 0.3333333 0.6666667 0.0000000
+\end{code}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4a_falsePosRate.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
 
 
 
-\part What seems to be the best value for $\mu$? Why?
+\part Based on the values measured on the training set (using 5-fold cross validation), the best value for $\mu$ is \texttt{mu5}$=\frac{1000}{\left|D\right|}\approx0.205$. At this value we maximize the accuracy and minimize the false positive rate, with no increase in the false negative rate.
 
-\part For each value of $\mu$, train on the full training set and test on the full testing set. Summarize the correct classification rate, the false negative rate and the false positive rate in three graphs. Does your answer from (b) still seem the best value? Why or why not?
+\part \tiny{For each value of $\mu $, train on the full training set and test on the full testing set. Summarize the correct classification rate, the false negative rate and the false positive rate in three graphs. Does your answer from (b) still seem the best value? Why or why not?}
 
 
-\part How close are the rates estimated from cross-validation to the true rates on the testing set (give percentage error)? What could account for di↵erences? Give one way the differences between the cross-validation rate estimates and the rates on the training sets could be minimized.
+\part \tiny{How close are the rates estimated from cross-validation to the true rates on the testing set (give percentage error)? What could account for di↵erences? Give one way the differences between the cross-validation rate estimates and the rates on the training sets could be minimized.}
 
 
 
