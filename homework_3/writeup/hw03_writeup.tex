@@ -223,7 +223,7 @@ Prediction Hamilton Madison
 
 \begin{parts}
 
-\part For each value of $\mu \in \left\{ \frac{0.1}{\left|D\right|}, \frac{1}{\left|D\right|}, \frac{10}{\left|D\right|}, \frac{100}{\left|D\right|}\frac{1000}{\left|D\right|} \right\}$, where $\left|D\right|=4875$ is the size of our dictionary; estimations of the the correct classification rate, the false negative rate, and the false positive rate using 5-fold cross-validation are outlined below. For each of the metrics, the table indicates the value for each of the 25 tests and the graph indicates averages over the 5 tests for each choice of $\mu$.
+\part \textbf{5-Fold Cross-Validation}\ \ For each value of $\mu \in \left\{ \frac{0.1}{\left|D\right|}, \frac{1}{\left|D\right|}, \frac{10}{\left|D\right|}, \frac{100}{\left|D\right|}\frac{1000}{\left|D\right|} \right\}$, where $\left|D\right|=4875$ is the size of our dictionary; estimations of the the correct classification rate, the false negative rate, and the false positive rate are outlined below. For each of the metrics, the table indicates the value for each of the 25 tests and the graph indicates averages over the 5 tests for each choice of $\mu$.
 
 \textbf{Correct Rate:}
 \begin{code}
@@ -280,7 +280,56 @@ mu5 0.0000000 0.6666667 0.3333333 0.6666667 0.0000000
 
 \part Based on the values measured on the training set (using 5-fold cross validation), the best value for $\mu$ is \texttt{mu5}$=\frac{1000}{\left|D\right|}\approx0.205$. At this value we maximize the accuracy and minimize the false positive rate, with no increase in the false negative rate.
 
-\part \tiny{For each value of $\mu $, train on the full training set and test on the full testing set. Summarize the correct classification rate, the false negative rate and the false positive rate in three graphs. Does your answer from (b) still seem the best value? Why or why not?}
+\part \textbf{Validation Set Cross-Validation}\ \ For the same values of $\mu$ used in Part (a), estimations of the the correct classification rate, the false negative rate, and the false positive rate are outlined below.
+
+\textbf{Correct Rate:}
+\begin{code}
+              mu1       mu2       mu3       mu4       mu5
+testSet 0.6296296 0.6296296 0.7037037 0.8518519 0.9259259
+\end{code}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4c_correctRate.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+\textbf{False Negative Rate:}
+\begin{code}
+        mu1 mu2 mu3 mu4    mu5
+testSet   0   0   0   0 0.0625
+\end{code}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4c_falseNegRate.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+\textbf{False Positive Rate:}
+\begin{code}
+              mu1       mu2       mu3       mu4        mu5
+testSet 0.9090909 0.9090909 0.7272727 0.3636364 0.09090909
+\end{code}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{4c_falsePosRate.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+Using validation set cross-validation, it still appears as though \texttt{mu5}$=\frac{1000}{\left|D\right|}\approx0.205$ is the optimal choice for $\mu$. At this value we maximize the accuracy and minimize the false positive rate, with only a minimal increase in the false negative rate.
+\\
+
+The next-best choice would be \texttt{mu4}$=\frac{100}{\left|D\right|}\approx0.0205$, since at this value we still have a 0\% false negative rate. As we shift from \texttt{mu4} to \texttt{mu5}, however, the large drop in the false positive rate more than compensates for the small increase in the false negative rate, again, making \texttt{mu5} the optimal value.
+
+
+
+
+
 
 
 \part \tiny{How close are the rates estimated from cross-validation to the true rates on the testing set (give percentage error)? What could account for di↵erences? Give one way the differences between the cross-validation rate estimates and the rates on the training sets could be minimized.}

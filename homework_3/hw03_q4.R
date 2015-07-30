@@ -125,10 +125,79 @@ ggsave(filename='writeup/4a_falsePosRate.png', width=5, height=2)
 # Problem 4c
 #################
 
+# initalize empty matrices to store accuracy measures
+correctRate4C <- matrix(, 5, 1, dimnames=list(paste("mu", 1:5, sep=""), "testSet"))
+falseNegRate4C <- matrix(, 5, 1, dimnames=list(paste("mu", 1:5, sep=""), "testSet"))
+falsePosRate4C <- matrix(, 5, 1, dimnames=list(paste("mu", 1:5, sep=""), "testSet"))
+
+# calculate the log priors
+log.prior.hamilton4C <- log(nrow(dtm.hamilton.train)/(nrow(dtm.hamilton.train)+nrow(dtm.madison.train)))
+log.prior.madison4C <- log(nrow(dtm.madison.train)/(nrow(dtm.hamilton.train)+nrow(dtm.madison.train)))
+
+for(muChoice in 1:length(muList)){
+  
+  # define mu
+  mu=muList[[muChoice]]
+  
+  # compute the log probabilities for the dictionary
+  #   in Hamilton- and Madison- authored documents for the given mu
+  logp.hamilton.train4C <- make.log.pvec(dtm.hamilton.train, mu)
+  logp.madison.train4C <- make.log.pvec(dtm.madison.train, mu)
+  
+  # define a test dtm and record the true values
+  dtm.test <- rbind(dtm.hamilton.test,
+                    dtm.madison.test)
+  trueValues <- c(rep("Hamilton", nrow(dtm.hamilton.test)),
+                  rep("Madison", nrow(dtm.madison.test)))
+  
+  # calculate the log posterior probabilities
+  log.post.hamilton4C <- log.prior.hamilton4C + (dtm.test %*% logp.hamilton.train4C)
+  log.post.madison4C <- log.prior.madison4C + (dtm.test %*% logp.madison.train4C)
+  
+  # compare the log posterior probabilities and assign to the author
+  # with highest probability
+  prediction <- data.frame(trueValue=trueValues,
+                           pred=(log.post.hamilton4C >= log.post.madison4C))
+  prediction$pred <- gsub(TRUE, "Hamilton", prediction$pred)
+  prediction$pred <- gsub(FALSE, "Madison", prediction$pred)
+  
+  # calculate accuracy measurements
+  correctRate4C[muChoice, 1] <- sum(prediction$trueValue==prediction$pred)/nrow(prediction)
+  falseNegRate4C[muChoice, 1] <- nrow(filter(prediction, trueValue=="Hamilton" & pred=="Madison"))/nrow(filter(prediction, trueValue=="Hamilton"))
+  falsePosRate4C[muChoice, 1] <- nrow(filter(prediction, trueValue=="Madison" & pred=="Hamilton"))/nrow(filter(prediction, trueValue=="Madison"))
+  
+}
+
+# estimate model accuracies
+t(correctRate4C)
+ggplot(data.frame(mu=muList,
+                  correctRate=c(correctRate4C)),
+       aes(x=log(mu), y=correctRate)) +
+  geom_line() + geom_point()
+ggsave(filename='writeup/4c_correctRate.png', width=5, height=2)
+
+t(falseNegRate4C)
+ggplot(data.frame(mu=muList,
+                  falseNegRate=c(falseNegRate4C)),
+       aes(x=log(mu), y=falseNegRate)) +
+  geom_line() + geom_point()
+ggsave(filename='writeup/4c_falseNegRate.png', width=5, height=2)
+
+t(falsePosRate4C)
+ggplot(data.frame(mu=muList,
+                  falsePosRate=c(falsePosRate4C)),
+       aes(x=log(mu), y=falsePosRate)) +
+  geom_line() + geom_point()
+ggsave(filename='writeup/4c_falsePosRate.png', width=5, height=2)
 
 
+#################
+# Problem 4d
+#################
 
-
+100*(colMeans(correctRate)-t(correctRate4C))/t(correctRate4C)
+100*(colMeans(falseNegRate)-t(correctRate4C))/t(correctRate4C)
+100*(colMeans(correctRate)-t(correctRate4C))/t(correctRate4C)
 
 
 
