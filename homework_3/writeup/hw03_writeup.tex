@@ -173,8 +173,6 @@ naive.bayes <- function(logp.hamilton.train, logp.madison.train,
 
 \titledquestion{Assessing Model Performance}
 
-Using the \texttt{confusionMatrix} function from the \texttt{caret} library:
-
 \begin{itemize}
 \item \textbf{Accuracy:} 63\% accurate (\% of the test papers that are classified correctly)
 \item \textbf{True Positive Rate:} 100\% (Hamilton classified as Hamilton divided by the total amount of testing Hamilton papers)
@@ -224,6 +222,7 @@ Prediction Hamilton Madison
 \begin{parts}
 
 \part \textbf{5-Fold Cross-Validation}\ \ For each value of $\mu \in \left\{ \frac{0.1}{\left|D\right|}, \frac{1}{\left|D\right|}, \frac{10}{\left|D\right|}, \frac{100}{\left|D\right|}\frac{1000}{\left|D\right|} \right\}$, where $\left|D\right|=4875$ is the size of our dictionary; estimations of the the correct classification rate, the false negative rate, and the false positive rate are outlined below. For each of the metrics, the table indicates the value for each of the 25 tests and the graph indicates averages over the 5 tests for each choice of $\mu$.
+\smallskip
 
 \textbf{Correct Rate:}
 \begin{code}
@@ -278,9 +277,10 @@ mu5 0.0000000 0.6666667 0.3333333 0.6666667 0.0000000
 
 
 
-\part Based on the values measured on the training set (using 5-fold cross validation), the best value for $\mu$ is \texttt{mu5}$=\frac{1000}{\left|D\right|}\approx0.205$. At this value we maximize the accuracy and minimize the false positive rate, with no increase in the false negative rate.
+\part Based on the values measured on the training set (using 5-fold cross validation), the best value for $\mu$ is \texttt{mu5} $=\frac{1000}{\left|D\right|}\approx0.205$. At this value we maximize the accuracy and minimize the false positive rate, with no increase in the false negative rate.
 
-\part \textbf{Validation Set Cross-Validation}\ \ For the same values of $\mu$ used in Part (a), estimations of the the correct classification rate, the false negative rate, and the false positive rate are outlined below.
+\part \textbf{Testing Set}\ \ For the same values of $\mu$ used in Part (a), estimations of the the correct classification rate, the false negative rate, and the false positive rate are outlined below.
+\smallskip
 
 \textbf{Correct Rate:}
 \begin{code}
@@ -321,18 +321,34 @@ testSet 0.9090909 0.9090909 0.7272727 0.3636364 0.09090909
 	%\label{fig:figName}
 \end{figure}
 
-Using validation set cross-validation, it still appears as though \texttt{mu5}$=\frac{1000}{\left|D\right|}\approx0.205$ is the optimal choice for $\mu$. At this value we maximize the accuracy and minimize the false positive rate, with only a minimal increase in the false negative rate.
-\\
+Using validation set cross-validation, it still appears as though \texttt{mu5} $=\frac{1000}{\left|D\right|}\approx0.205$ is the optimal choice for $\mu$. At this value we maximize the accuracy and minimize the false positive rate, with only a minimal increase in the false negative rate.
+\smallskip
 
-The next-best choice would be \texttt{mu4}$=\frac{100}{\left|D\right|}\approx0.0205$, since at this value we still have a 0\% false negative rate. As we shift from \texttt{mu4} to \texttt{mu5}, however, the large drop in the false positive rate more than compensates for the small increase in the false negative rate, again, making \texttt{mu5} the optimal value.
-
-
+The next-best choice would be \texttt{mu4} $=\frac{100}{\left|D\right|}\approx0.0205$, since at this value we still have a 0\% false negative rate. As we shift from \texttt{mu4} to \texttt{mu5}, however, the large drop in the false positive rate more than compensates for the small increase in the false negative rate, again, making \texttt{mu5} the optimal value.
 
 
 
 
 
-\part \tiny{How close are the rates estimated from cross-validation to the true rates on the testing set (give percentage error)? What could account for di↵erences? Give one way the differences between the cross-validation rate estimates and the rates on the training sets could be minimized.}
+
+
+\part For $\mu=$ \texttt{mu5}, the overall correct rate was more or less accurate, with the cross-validation estimate only 9.28\% lower than the value generated on the full testing set. The false negative and false positive rates show very high percent error --— this is only because both metrics were 0 in the cross-validation estimates and non-zero in the full testing test, making the `percent error' metric somewhat misleading here.
+\smallskip
+
+Both the false negative and false positive rates were 0 in the cross-validation estimates, so with non-zero rates generated from the full testing set, the percent error appears to be unreasonably high.
+\smallskip
+
+To minimize the differences between the cross-validation rate estimates and the rates on the training set, we could increase the number of folds used in the cross-validation method. This would provide a more accurate estimate for the rate estimates.
+
+\begin{code}
+    correctRate falseNegRate falsePosRate
+mu1   0.3341176         -Inf   -0.1059259
+mu2   0.1435294         -Inf    0.3340741
+mu3   0.0800000         -Inf    0.1324074
+mu4  -0.1078261         -Inf   -0.1425926
+mu5  -0.0928000    -14.81481   -4.3185185
+\end{code}
+
 
 
 

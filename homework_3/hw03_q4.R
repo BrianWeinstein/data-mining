@@ -191,13 +191,14 @@ ggplot(data.frame(mu=muList,
 ggsave(filename='writeup/4c_falsePosRate.png', width=5, height=2)
 
 
+
 #################
 # Problem 4d
 #################
 
-100*(colMeans(correctRate)-t(correctRate4C))/t(correctRate4C)
-100*(colMeans(falseNegRate)-t(correctRate4C))/t(correctRate4C)
-100*(colMeans(correctRate)-t(correctRate4C))/t(correctRate4C)
-
-
+# Calculate pct error for each value of mu
+pctError <- data.frame(t((colMeans(correctRate)-t(correctRate4C))/t(correctRate4C)),
+                       t((colMeans(falseNegRate)-t(correctRate4C))/t(falseNegRate4C)),
+                       t((colMeans(falsePosRate)-t(correctRate4C))/t(falsePosRate4C)))
+colnames(pctError) <- c("correctRate", "falseNegRate", "falsePosRate")
 
