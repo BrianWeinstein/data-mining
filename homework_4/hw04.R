@@ -61,7 +61,7 @@ dev.copy(device=png, file="writeup/5a.png", height=450, width=500)
 dev.off()
 
 
-# Probem 5a ################################################################################
+# Probem 5b ################################################################################
 
 # rpart classification with Gini impurity coefficient splits
 tree.info5 <- rpart(formula = y ~ ., data=dtm.train, method="class", parms=list(split="information"))
