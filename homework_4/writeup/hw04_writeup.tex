@@ -153,6 +153,72 @@ As we increase $s$ from 0:
 
 
 
+\titledquestion{Federalist Papers Classification with Trees}
+
+\begin{parts}
+
+\part Gini Impurity Coefficient Splits
+
+\begin{subparts}
+
+\subpart Model Assessment
+
+\begin{code}
+  accuracy falseNegRate falsePosRate
+1 0.962963            0   0.09090909
+\end{code}
+
+\begin{itemize}
+\item Accuracy: \% of test papers that are classified correctly
+\item False Negative Rate: \% of Hamilton papers incorrectly classified as Madison
+\item False Positive Rate: \% of Madison papers incorrectly classified as Hamilton
+\end{itemize}
+
+
+\subpart Tree Plot
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{5a.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+\end{subparts}
+
+
+
+\part Information Gain Splits
+
+\begin{subparts}
+
+\subpart Model Assessment
+
+\begin{code}
+  accuracy falseNegRate falsePosRate
+1 0.962963            0   0.09090909
+\end{code}
+
+\subpart Tree Plot
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=350px]{5b.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+
+\subpart %Are there any differences between the two plots? If so, what are they and why do you think they arose?
+The trees generated from Gini Impurity Coefficient splits and Information Gain splits ended up being identical here. This is because\todo{n is small?}
+
+
+\end{subparts}
+
+
+
+
+\end{parts}
 
 
 
@@ -160,12 +226,46 @@ As we increase $s$ from 0:
 
 
 
+\titledquestion{Federalist Papers Classification with Regularized Logistic Regression}
+
+\begin{parts}
+
+\part \todo{Problem 6}
+
+\end{parts}
 
 
 
 
 
 
+\titledquestion{Federalist Papers Classification with Feature Selection}
+
+\begin{parts}
+
+\part \todo{Problem 7}
+
+\end{parts}
+
+
+
+\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 8.4.10}
+
+\begin{parts}
+
+\part \todo{Problem 8}
+
+\end{parts}
+
+
+
+\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 10.7.1}
+
+\begin{parts}
+
+\part \todo{Problem 9}
+
+\end{parts}
 
 
 
