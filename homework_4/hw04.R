@@ -1,15 +1,15 @@
 #############################
 # Brian Weinstein - bmw2148
 # STAT S4240 002
-# Homework 4, Problem 4
+# Homework 4
 # 2015-08-13
 #
 # The following code analyzes the federalist papers
 #############################
 
-#################
-# Setup
-#################
+
+
+# Setup ################################################################################
 
 # set working directory
 setwd("~/Documents/data-mining/homework_4")
@@ -38,9 +38,8 @@ colnames(dtm.test) <- c("y", as.vector(dictionary$word))
 
 
 
-#################
-# Problem 4a
-#################
+# Probem 4a ################################################################################
+
 
 
 
