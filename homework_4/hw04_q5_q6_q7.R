@@ -1,7 +1,7 @@
 #############################
 # Brian Weinstein - bmw2148
 # STAT S4240 002
-# Homework 4
+# Homework 4, Problems 5, 6, and 7
 # 2015-08-13
 #
 # The following code analyzes the federalist papers
