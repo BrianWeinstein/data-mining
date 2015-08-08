@@ -333,7 +333,45 @@ Using boosting to predict \texttt{Salary} in the \texttt{Hitters} data set.
 
 \begin{parts}
 
-\part 
+\part Removing the observations with no salary information, and log-transforming the salaries.
+\begin{code}
+# remove observations with no salary info
+Hitters <- Hitters[!is.na(Hitters$Salary), ]
+
+# log transform the salaries
+Hitters$Salary <- log(Hitters$Salary) #$
+\end{code}
+
+
+\part Creating training and testing sets.
+
+\begin{code}
+Hitters.train <- Hitters[1:200, ]
+Hitters.test <- Hitters[-(1:200), ]
+\end{code}
+
+
+
+\part Boosting on the training set with 1,000 trees for a range of values of the shrinkage parameter $\lambda \in \left\{  0.0001, 0.0051, 0.0101, 0.0151, \ldots, 0.2951      \right\}$. Training MSE vs $\lambda$ shown below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{8c_trainMSE.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+
+\part Boosting on the training set with 1,000 trees for a range of values of the shrinkage parameter $\lambda \in \left\{  0.0001, 0.0051, 0.0101, 0.0151, \ldots, 0.2951      \right\}$. Test MSE vs $\lambda$ shown below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=5in]{8c_testMSE.png}
+	%\caption{}
+	%\label{fig:figName}
+\end{figure}
+
+
 
 
 
