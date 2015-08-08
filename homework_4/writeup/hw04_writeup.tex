@@ -239,7 +239,86 @@ The trees generated from Gini Impurity Coefficient splits and Information Gain s
 
 \begin{parts}
 
-\part \todo{Problem 6}
+\part We should always center and scale our data whenever we us use a regularization method. Without scaling our data, the variables with larger values would have smaller coefficients (to indicate some level of importance), which would decrease the penalty for these predictors. Similarly, variables with smaller values would have much larger coefficients (to indicate the same level of importance), which would increase the penalty for these predictors.
+\smallskip
+
+In our dataset, since each of the word counts are on different scales (i.e., some words are much more common than others), performing unregularized logistic regression wouldn't penalize each of the variables in a comparable way.
+
+
+
+\part Ridge Regression
+
+\begin{subparts}
+
+\subpart Model Assessment
+
+\begin{code}
+   accuracy falseNegRate falsePosRate
+1 0.5925926            0            1
+\end{code}
+
+\subpart Important Words
+
+The 10 words with the largest coefficients (in absolute value) are shown below.
+\begin{code}
+       word        coef    absCoef
+1  februari -0.01667849 0.01667849
+2      upon  0.01572523 0.01572523
+3    whilst -0.01428038 0.01428038
+4    within -0.01367440 0.01367440
+5     sever -0.01344406 0.01344406
+6      1783 -0.01302052 0.01302052
+7      form -0.01193143 0.01193143
+8    member -0.01168190 0.01168190
+9         5 -0.01153821 0.01153821
+10 although -0.01127392 0.01127392
+\end{code}
+
+\end{subparts}
+
+
+
+
+
+
+\part Lasso
+
+\begin{subparts}
+
+\subpart Model Assessment
+
+\begin{code}
+   accuracy falseNegRate falsePosRate
+1 0.8888889            0    0.2727273
+\end{code}
+
+\subpart Important Words
+
+The 10 words with the largest coefficients (in absolute value) are shown below.
+\begin{code}
+       word       coef   absCoef
+1    whilst -1.3557246 1.3557246
+2  februari -1.1650795 1.1650795
+3      upon  1.1493109 1.1493109
+4      form -0.5714197 0.5714197
+5  although -0.4741114 0.4741114
+6    within -0.4227536 0.4227536
+7     sever -0.3698089 0.3698089
+8    lesser -0.3483888 0.3483888
+9      anim -0.1694737 0.1694737
+10 indirect -0.1641048 0.1641048
+\end{code}
+
+Both ridge and lasso include ``februari'', ``upon'', ``whilst'', ``within'', ``sever'', ``form'', and "although'' in the their 10 most important words.
+\smallskip
+
+``1783'', ``member'', and ``5'' are included in the top 10 ridge words, but not in the top 10 lasso; and ``lesser'', ``anim'', and ``indirect'' are included in lasso, but not in ridge.
+\smallskip
+
+In general the ridge weights are smaller (in absolute value) than those from lasso.
+
+\end{subparts}
+
 
 \end{parts}
 
