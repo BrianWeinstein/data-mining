@@ -171,7 +171,3 @@ intersect(words.ridge6$word, words.lasso6$word)
 
 
 
-
-
-
-
