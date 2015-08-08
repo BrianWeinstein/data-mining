@@ -92,4 +92,30 @@ ggsave(filename='writeup/8c_trainMSE.png', width=5, height=3)
 
 
 
+# Problem 8d ################################################################################
+
+# plot testing mse vs lambda
+ggplot(mse.boost, aes(x=lambda, y=mse.test)) + 
+  geom_line() + geom_point()
+ggsave(filename='writeup/8d_testMSE.png', width=5, height=3)
+
+
+
+
+# Problem 8e ################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
