@@ -20,6 +20,7 @@ library(ISLR)
 library(gbm)
 library(ggplot2)
 theme_set(theme_bw())
+library(glmnet)
 
 # load data into global environment
 HittersRaw <- Hitters # save raw data for debugging
@@ -104,10 +105,18 @@ ggsave(filename='writeup/8d_testMSE.png', width=5, height=3)
 
 # Problem 8e ################################################################################
 
+# ols regression
+model.ols <- lm(formula = Salary ~ ., data=Hitters.train)
+pred.test.ols <- predict(model.ols, newdata=Hitters.test)
+mse.test.ols <- mean((Hitters.test$Salary - pred.test.ols)^2)
 
-
-
-
+# lasso
+model.lasso <- cv.glmnet(x=model.matrix(Salary ~ ., Hitters.train)[, -1],
+                         y=Hitters.train$Salary,
+                         alpha=1, family="gaussian",
+                         type.measure="mse")
+pred.test.lasso <- asdf
+mse.test.lasso <- asdf
 
 
 
