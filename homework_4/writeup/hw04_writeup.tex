@@ -372,6 +372,58 @@ Hitters.test <- Hitters[-(1:200), ]
 \end{figure}
 
 
+\part Boosting generates a test MSE of 0.2447458 (at $\lambda=0.1151$). I compared the boosting MSE to the errors obtained from OLS regression (from Chapter 3) and the lasso (from Chapter 6).
+\smallskip
+
+OLS regression generated a test MSE of $0.4918959$:
+\indent \begin{code}
+model.ols <- lm(formula = Salary ~ ., data=Hitters.train)
+pred.test.ols <- predict(model.ols, newdata=Hitters.test)
+mse.test.ols <- mean((Hitters.test$Salary - pred.test.ols)^2) #$
+\end{code}
+\smallskip
+
+And the lasso generates a test MSE of $0.4696547$:
+\begin{codeSmall}
+model.lasso <- cv.glmnet(x=model.matrix(Salary ~ ., Hitters.train)[, -1],
+                         y=Hitters.train$Salary,
+                         alpha=1, family="gaussian",
+                         type.measure="mse")
+pred.test.lasso <-  predict(model.lasso, newx=model.matrix(Salary ~ ., Hitters.test)[, -1],
+                            s="lambda.min", type="response")
+mse.test.lasso <- mean((Hitters.test$Salary - (as.data.frame(pred.test.lasso)$"1"))^2) #$
+\end{codeSmall}
+\smallskip
+
+The boosting approach generates a significantly lower test MSE than OLS regression and the lasso.
+
+
+
+
+\part In the boosted model, \texttt{CAtBat} is by far the most important predictor. \texttt{PutOuts} is the second most important, but has less than half the relative influence of \texttt{CAtBat}. The relative influence statistics of all variables in the model are shown below.
+
+\begin{code}
+                var     rel.inf
+CAtBat       CAtBat 23.57153591
+PutOuts     PutOuts  9.01152161
+CHits         CHits  8.57868893
+Walks         Walks  7.15658743
+Years         Years  6.15196246
+CRuns         CRuns  5.54809666
+RBI             RBI  5.51043189
+CRBI           CRBI  5.20052999
+CHmRun       CHmRun  4.86688069
+Assists     Assists  4.27511089
+AtBat         AtBat  4.08888482
+Hits           Hits  3.86999152
+HmRun         HmRun  3.45383623
+CWalks       CWalks  2.62813762
+Errors       Errors  2.56909410
+Runs           Runs  2.23166814
+NewLeague NewLeague  0.66480707
+Division   Division  0.52425937
+League       League  0.09797467
+\end{code}
 
 
 

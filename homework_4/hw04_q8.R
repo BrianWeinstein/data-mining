@@ -16,11 +16,13 @@
 setwd("~/Documents/data-mining/homework_4")
 
 # load libraries
-library(ISLR)
-library(gbm)
+library(ISLR) # for the Hitters dataset
+library(gbm) # 8c - boosting
 library(ggplot2)
 theme_set(theme_bw())
-library(glmnet)
+library(glmnet) # 8e - lasso
+library(dplyr)
+library(randomForest) # 8g - bagging
 
 # load data into global environment
 HittersRaw <- Hitters # save raw data for debugging
@@ -50,11 +52,6 @@ Hitters.test <- Hitters[-(1:200), ]
 
 
 # Problem 8c ################################################################################
-
-# Perform boosting on the training set with 1,000 trees for a range of values 
-# of the shrinkage parameter λ. Produce a plot with different shrinkage values 
-# on the x-axis and the corresponding training set MSE on the y-axis.
-
 
 # create a list of lambda values (shrinkage parameters) to test over
 lambdaList <- seq(0.0001, 0.3, by=0.005)
@@ -115,8 +112,45 @@ model.lasso <- cv.glmnet(x=model.matrix(Salary ~ ., Hitters.train)[, -1],
                          y=Hitters.train$Salary,
                          alpha=1, family="gaussian",
                          type.measure="mse")
-pred.test.lasso <- asdf
-mse.test.lasso <- asdf
+pred.test.lasso <-  predict(model.lasso, newx=model.matrix(Salary ~ ., Hitters.test)[, -1],
+                            s="lambda.min", type="response")
+mse.test.lasso <- mean((Hitters.test$Salary - (as.data.frame(pred.test.lasso)$"1"))^2)
+
+# mse from boosting in part 8d
+filter(mse.boost, mse.boost$mse.test==min(mse.boost$mse.test))
+mse.test.boost <- filter(mse.boost, mse.boost$mse.test==min(mse.boost$mse.test)) %>%
+  select(mse.test) %>%
+  as.numeric()
+lambda.test.boost <- filter(mse.boost, mse.boost$mse.test==min(mse.boost$mse.test)) %>%
+  select(lambda) %>%
+  as.numeric()
+
+
+
+
+# Problem 8f ################################################################################
+
+# defining model.boost with the lambda that minimizes test MSE
+model.boost <- gbm(formula = Salary ~ ., data=Hitters.train,
+                   n.trees=1000, shrinkage=lambda.test.boost,
+                   distribution="gaussian")
+
+# get relative influence statistics
+summary(model.boost)
+
+
+
+
+# Problem 8g ################################################################################
+
+
+
+
+
+
+
+
+
 
 
 
