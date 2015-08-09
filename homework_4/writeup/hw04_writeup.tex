@@ -132,11 +132,11 @@ As we increase $s$ from 0:
 
 
 
-\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 6.8.5}
+\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 6.8.5} \todo{Problem 3}
 
 \begin{parts}
 
-\part \todo{Problem 3}
+\part 
 
 \end{parts}
 
@@ -427,6 +427,24 @@ League       League  0.09797467
 
 
 
+\part Bagging generates a test MSE of $0.2309305$, which is slightly better than the test MSE obtained through the boosting and much better than the MSEs obtained through OLS regression and the lasso.
+
+\begin{codeSmall}
+# train the model
+model.bag <- randomForest(formula = Salary ~ .,
+                          data=Hitters.train,
+                          mtry=(ncol(Hitters.train) - 1), # consider *all* variables in
+                                                          # each split (bagging)
+                          ntree=1000,
+                          importance=TRUE)
+
+# use model to predict values for the testing data
+pred.test.bag <- predict(model.bag,
+                         newdata=Hitters.test[, -which(colnames(Hitters.test)=="Salary")])
+
+# calculate the testing MSE
+mse.test.bag <- mean((Hitters.test$Salary - pred.test.bag)^2) #$
+\end{codeSmall}
 
 
 
@@ -440,11 +458,18 @@ League       League  0.09797467
 
 
 
-\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 10.7.1}
+\titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 10.7.1} \todo{Problem 9} 
+
+\textit{This problem involves the K-means clustering algorithm.}
 
 \begin{parts}
 
-\part \todo{Problem 9}
+\part \textit{Prove (10.12).}
+
+\part \textit{On the basis of this identity, argue that the K-means clustering algorithm (Algorithm 10.1) decreases the objective (10.11) at each iteration.}
+
+
+
 
 \end{parts}
 

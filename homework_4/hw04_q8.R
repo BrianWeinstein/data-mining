@@ -143,22 +143,23 @@ summary(model.boost)
 
 # Problem 8g ################################################################################
 
+# Set seed for pseudo-random numbers
+set.seed(1)
 
+# train the model
+model.bag <- randomForest(formula = Salary ~ .,
+                          data=Hitters.train,
+                          mtry=(ncol(Hitters.train) - 1), # consider *all* variables in
+                                                          # each split (bagging)
+                          ntree=1000,
+                          importance=TRUE)
 
+# use model to predict values for the testing data
+pred.test.bag <- predict(model.bag,
+                         newdata=Hitters.test[, -which(colnames(Hitters.test)=="Salary")])
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+# calculate the testing MSE
+mse.test.bag <- mean((Hitters.test$Salary - pred.test.bag)^2)
 
 
 
