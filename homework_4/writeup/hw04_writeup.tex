@@ -20,7 +20,9 @@
 \usepackage{float}
 \setlength\parindent{0pt}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{lipsum}
+\usepackage{mathtools}
 
 
 \qformat{\textbf{Problem \thequestion: \thequestiontitle}\quad \hfill}
@@ -134,9 +136,57 @@ As we increase $s$ from 0:
 
 \titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 6.8.5} \todo{Problem 3}
 
+It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite dif- ferent coefficient values to correlated variables. We will now explore this property in a very simple setting.
+Suppose that n = 2, p = 2, x11 = x12, x21 = x22. Furthermore, supposethaty1+y2 =0andx11+x21 =0andx12+x22 =0,sothat the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: βˆ0 = 0.
+
 \begin{parts}
 
-\part 
+\part Write out the ridge regression optimization problem in this setting.
+
+$$  \sum_{i=1}^{n} \left( y_i - \beta_0 - \sum_{j=1}^{p} \beta_j x_{ij}  \right)^2       + \lambda  \sum_{j=1}^{p} \beta_j^2   $$
+
+Since $n=2$, $p=2$, and $\beta_0=0$,
+$$  \sum_{i=1}^{2} \left( y_i - 0 - \sum_{j=1}^{2} \beta_j x_{ij}  \right)^2       + \lambda  \sum_{j=1}^{2} \beta_j^2   .$$
+
+
+Expanding the summations,
+$$   \left(  y_1 - \beta_1 x_{11} - \beta_2 x_{12}  \right)^2  + \left(  y_2 - \beta_1 x_{21} - \beta_2 x_{22}  \right)^2  + \lambda \beta_1^2  +  \lambda \beta_2^2  .$$
+
+
+And since $\left( x_{11}=x_{12}=-x_{21}=-x_{22} \coloneqq x\right)$ and $\left( y_1 = -y_2 \coloneqq y \right)$,
+
+$$   
+\left(  y - \left( \beta_1 + \beta_2 \right) x \right)^2 + \left( - y + \left( \beta_1 + \beta_2 \right) x \right)^2   + \lambda \left( \beta_1^2 + \beta_2^2 \right)   .$$
+
+Then expanding the polynomial terms and simplifying,
+$$ 2y^2 - 4xy \left( \beta_1 + \beta_2 \right) + 2 x^2 \left( \beta_1 + \beta_2 \right)^2 + \lambda \left( \beta_1^2 + \beta_2^2 \right) \coloneqq \mathcal{L}.$$
+
+
+\part Argue that in this setting, the ridge coefficient estimates satisfy $\hat{\beta}_1 = \hat{\beta}_2$.
+
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_1 = 0 \quad \quad \Rightarrow \quad \quad\hat{\beta}_1 = \frac{4xy-4x^2\hat{\beta}_2}{4x^2+2\lambda}  $$
+
+and
+
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_2} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_2 = 0 \quad \quad \Rightarrow \quad \quad\hat{\beta}_2 = \frac{4xy-4x^2\hat{\beta}_1}{4x^2+2\lambda}  .$$
+
+
+Equating $\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = \frac{\partial \mathcal{L}}{\partial \hat{\beta}_2}$ (since both $=0$) and canceling out terms yields:
+
+
+
+
+
+
+
+
+
+
+
+
+\part Write out the lasso optimization problem in this setting.
+
+\part Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique—in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.
 
 \end{parts}
 
