@@ -136,12 +136,12 @@ As we increase $s$ from 0:
 
 \titledquestion{\href{http://www-bcf.usc.edu/~gareth/ISL/}{James} 6.8.5} \todo{Problem 3}
 
-It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite dif- ferent coefficient values to correlated variables. We will now explore this property in a very simple setting.
-Suppose that n = 2, p = 2, x11 = x12, x21 = x22. Furthermore, supposethaty1+y2 =0andx11+x21 =0andx12+x22 =0,sothat the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: βˆ0 = 0.
+\textit{It is well-known that ridge regression tends to give similar coefficient values to correlated variables, whereas the lasso may give quite different coefficient values to correlated variables. We will now explore this property in a very simple setting.
+Suppose that $n = 2$, $p = 2$, $x_{11} = x_{12}$, $x_{21} = x_{22}$. Furthermore, suppose that $y_1+y_2 =0$ and $x_{11}+x_{21} =0$ and $x_{12}+x_{22} =0$, so that the estimate for the intercept in a least squares, ridge regression, or lasso model is zero: $\hat{\beta}_0 = 0$.}
 
 \begin{parts}
 
-\part Write out the ridge regression optimization problem in this setting.
+\part \textit{Write out the ridge regression optimization problem in this setting.}
 
 $$  \sum_{i=1}^{n} \left( y_i - \beta_0 - \sum_{j=1}^{p} \beta_j x_{ij}  \right)^2       + \lambda  \sum_{j=1}^{p} \beta_j^2   $$
 
@@ -162,21 +162,50 @@ Then expanding the polynomial terms and simplifying,
 $$ 2y^2 - 4xy \left( \beta_1 + \beta_2 \right) + 2 x^2 \left( \beta_1 + \beta_2 \right)^2 + \lambda \left( \beta_1^2 + \beta_2^2 \right) \coloneqq \mathcal{L}.$$
 
 
-\part Argue that in this setting, the ridge coefficient estimates satisfy $\hat{\beta}_1 = \hat{\beta}_2$.
-
-$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_1 = 0 \quad \quad \Rightarrow \quad \quad\hat{\beta}_1 = \frac{4xy-4x^2\hat{\beta}_2}{4x^2+2\lambda}  $$
-
-and
-
-$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_2} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_2 = 0 \quad \quad \Rightarrow \quad \quad\hat{\beta}_2 = \frac{4xy-4x^2\hat{\beta}_1}{4x^2+2\lambda}  .$$
-
-
-Equating $\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = \frac{\partial \mathcal{L}}{\partial \hat{\beta}_2}$ (since both $=0$) and canceling out terms yields:
 
 
 
 
 
+\part \textit{Argue that in this setting, the ridge coefficient estimates satisfy $\hat{\beta}_1 = \hat{\beta}_2$.}
+
+\smallskip
+
+Taking the derivative of $\mathcal{L}$ with respect to $\hat{\beta}_1$,
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_1 = 0 ,$$
+
+and taking the derivative of $\mathcal{L}$ with respect to $\hat{\beta}_2$,
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_2} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_2 = 0.$$
+
+
+Equating $\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = \frac{\partial \mathcal{L}}{\partial \hat{\beta}_2}$ (since both $=0$) yields:
+$$-4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_1 = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + 2\lambda\hat{\beta}_2$$  
+$$ \Rightarrow \hat{\beta}_1 = \hat{\beta}_2$$
+
+
+
+
+
+\part \textit{Write out the lasso optimization problem in this setting.}
+
+
+$$  \sum_{i=1}^{n} \left( y_i - \beta_0 - \sum_{j=1}^{p} \beta_j x_{ij}  \right)^2       + \lambda  \sum_{j=1}^{p} \left|\beta_j\right|   $$
+
+Since $n=2$, $p=2$, and $\beta_0=0$,
+$$  \sum_{i=1}^{2} \left( y_i - 0 - \sum_{j=1}^{2} \beta_j x_{ij}  \right)^2       + \lambda  \sum_{j=1}^{2} \left|\beta_j\right|   .$$
+
+
+Expanding the summations,
+$$   \left(  y_1 - \beta_1 x_{11} - \beta_2 x_{12}  \right)^2  + \left(  y_2 - \beta_1 x_{21} - \beta_2 x_{22}  \right)^2  + \lambda \left|\beta_1\right|  +  \lambda \left|\beta_2\right|  .$$
+
+
+And since $\left( x_{11}=x_{12}=-x_{21}=-x_{22} \coloneqq x\right)$ and $\left( y_1 = -y_2 \coloneqq y \right)$,
+
+$$   
+\left(  y - \left( \beta_1 + \beta_2 \right) x \right)^2 + \left( - y + \left( \beta_1 + \beta_2 \right) x \right)^2   + \lambda \left( \left|\beta_1\right| + \left|\beta_2\right| \right)   .$$
+
+Then expanding the polynomial terms and simplifying,
+$$ 2y^2 - 4xy \left( \beta_1 + \beta_2 \right) + 2 x^2 \left( \beta_1 + \beta_2 \right)^2 + \lambda \left( \left|\beta_1\right| + \left|\beta_2\right| \right) \coloneqq \mathcal{L}.$$
 
 
 
@@ -184,9 +213,47 @@ Equating $\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = \frac{\partial \
 
 
 
-\part Write out the lasso optimization problem in this setting.
 
-\part Argue that in this setting, the lasso coefficients βˆ1 and βˆ2 are not unique—in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\part \textit{Argue that in this setting, the lasso coefficients $\hat{\beta}_1$ and $ \hat{\beta}_2$ are not unique---in other words, there are many possible solutions to the optimization problem in (c). Describe these solutions.}
+
+\smallskip
+
+Taking the derivative of $\mathcal{L}$ with respect to $\hat{\beta}_1$,
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + \lambda \frac{\partial}{\partial \hat{\beta}_1} \left| \hat{\beta}_1 \right|= 0 ,$$
+
+and taking the derivative of $\mathcal{L}$ with respect to $\hat{\beta}_2$,
+$$\frac{\partial \mathcal{L}}{\partial \hat{\beta}_2} = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + \lambda \frac{\partial}{\partial \hat{\beta}_2} \left| \hat{\beta}_2 \right|= 0 .$$
+
+
+Equating $\frac{\partial \mathcal{L}}{\partial \hat{\beta}_1} = \frac{\partial \mathcal{L}}{\partial \hat{\beta}_2}$ (since both $=0$) yields:
+$$-4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + \lambda \frac{\partial}{\partial \hat{\beta}_2} \left| \hat{\beta}_2 \right| = -4xy+4x^2\hat{\beta}_1 + 4x^2\hat{\beta}_2 + \lambda \frac{\partial}{\partial \hat{\beta}_2} \left| \hat{\beta}_2 \right|$$ 
+
+ 
+$$ \Rightarrow \frac{\partial}{\partial \hat{\beta}_1} \left| \hat{\beta}_1 \right| = \frac{\partial}{\partial \hat{\beta}_2} \left| \hat{\beta}_2 \right|$$
+
+The presence of the absolute values indicate that there are \textit{at least} two possible values for each $\hat{\beta}_1$ and $\hat{\beta}_2$.
+
+
+
+
+
 
 \end{parts}
 
