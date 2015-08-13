@@ -581,16 +581,18 @@ mse.test.bag <- mean((Hitters.test$Salary - pred.test.bag)^2) #$
 
 \begin{parts}
 
-\part \textit{Prove (10.12).}
+\part \textit{Prove (10.12)}
+
+$$\frac{1}{\left| C_k \right|}  \sum_{i,i^\prime \in C_k } \sum_{j=1}^p       \left(  x_{ij} - x_{i^\prime j}   \right)^2    =  2 \sum_{i \in C_k } \sum_{j=1}^p   \left(  x_{ij} - \bar{x}_{kj} \right)^2 . $$
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=5in]{9a.jpeg}
+	\includegraphics[width=6in]{9a.png}
 	%\caption{}
 	%\label{fig:figName}
 \end{figure}
 
-\todo{finish 9a}
+\todo{fix and type up 9a}
 
 \part \textit{On the basis of this identity, argue that the K-means clustering algorithm (Algorithm 10.1) decreases the objective (10.11) at each iteration.}
 
