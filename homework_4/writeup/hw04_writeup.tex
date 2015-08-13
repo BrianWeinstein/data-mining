@@ -596,9 +596,15 @@ $$\frac{1}{\left| C_k \right|}  \sum_{i,i^\prime \in C_k } \sum_{j=1}^p       \l
 
 \part \textit{On the basis of this identity, argue that the K-means clustering algorithm (Algorithm 10.1) decreases the objective (10.11) at each iteration.}
 
-\todo{problem 9b}
+The right side of Equation (10.12) is proportional to the sum of the Euclidean distances between each point in a cluster and the cluster's centroid.
+\smallskip
 
+In step 2b of Algorithm 10.1, each observation is assigned to the centroid that is closest to it, which either decreases the right side of (10.12) or leaves it unchanged.
+\smallskip
 
+By the identity in (10.12), step 2b must also decrease $\frac{1}{\left| C_k \right|}  \sum_{i,i^\prime \in C_k } \sum_{j=1}^p       \left(  x_{ij} - x_{i^\prime j}   \right)^2$, which is the within-cluster variation for the $k$th cluster.
+
+The objective in (10.11) minimizes the sum of the within-cluster variations for all $K$ clusters, and thus Algorithm (10.1) decreases the objective in (10.11).
 
 \end{parts}
 
@@ -621,6 +627,6 @@ $$\frac{1}{\left| C_k \right|}  \sum_{i,i^\prime \in C_k } \sum_{j=1}^p       \l
 
 
 
-\listoftodos
+%\listoftodos
 
 \end{document}
